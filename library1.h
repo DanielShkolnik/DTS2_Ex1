@@ -28,6 +28,8 @@ typedef enum {
 } StatusType;
 
 
+// test
+
 void *Init();
 
 StatusType AddArtist(void *DS, int artistID, int numOfSongs);
