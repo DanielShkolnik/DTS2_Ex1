@@ -28,8 +28,6 @@ typedef enum {
 } StatusType;
 
 
-// test
-
 void *Init();
 
 StatusType AddArtist(void *DS, int artistID, int numOfSongs);
@@ -43,7 +41,6 @@ StatusType NumberOfStreams(void *DS, int artistID, int songID, int *streams);
 StatusType GetRecommendedSongs(void *DS, int numOfSongs, int *artists, int *songs);
 
 void Quit(void** DS);
-
 
 #ifdef __cplusplus
 }
