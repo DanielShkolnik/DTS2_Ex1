@@ -44,6 +44,7 @@ StatusType GetRecommendedSongs(void *DS, int numOfSongs, int *artists, int *song
 
 void Quit(void** DS);
 
+
 #ifdef __cplusplus
 }
 #endif
