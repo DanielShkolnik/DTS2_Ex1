@@ -20,6 +20,7 @@ private:
     void rotateRL(Node<K,D>* node);
     void rotateRR(Node<K,D>* node);
     int getBF(Node<K,D>* node);
+    Node<K,D> getNextAvailable(Node<K,D>& node);
 
 public:
     Avl():root(nullptr){}
@@ -96,7 +97,49 @@ void Avl<K,D>::delete_vertice(const K& key){
     }
 }
 
+// Gets the key and returns element with the nearest existing key
+template <class K, class D>
+Node<K,D> getNextAvailable(Node<K,D>& node){
+    // Avl is empty
+    if(this->root == nullptr) return nullptr;
 
+    // Create iterator
+    Node<K,D> iter = this->root;
+
+    // Start recursive search on right sub-tree
+    if(node->key = iter->key){
+        return iter;
+    }
+
+    // Start recursive search on right sub-tree
+    if(node->key > iter->key){
+        getNextAvailable(iter->getRight());
+    }
+
+    // Start recursive search on left sub-tree
+    if(node->key < iter->key){
+        getNextAvailable(iter->getLeft());
+    }
+
+    return this->root;
+}
+
+template <class K, class D>
+void insert(const K& key, D* data){
+    Node<K,D> nearest = getNextAvailable(key);
+    if(nearest != nullptr){
+        if (nearest->getKey()==key) throw Avl<K,D>::KeyExists();
+    }
+    Node<K,D> newNode = <Node<K,D>>(new Node<K,D>(key,data,nearest));
+    if(nearest == nullptr){
+        this->root = newNode;
+        return;
+    }
+    if(key > nearest->getKey()) nearest.setRight();
+    else if (key < nearest->getKey()) nearest.getLeft();
+    this->fixBalanceFactor(newNode);
+    this->update_head(newNode);
+}
 
 
 #endif //DTS2_EX1_AVL_H
