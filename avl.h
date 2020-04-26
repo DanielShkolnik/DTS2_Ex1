@@ -121,7 +121,7 @@ Node<K,D> getNextAvailable(Node<K,D>& node){
         getNextAvailable(iter->getLeft());
     }
 
-    return this->head;
+    return this->root;
 }
 
 template <class K, class D>
