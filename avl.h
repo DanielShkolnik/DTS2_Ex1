@@ -28,7 +28,7 @@ public:
     Avl& operator=(const Avl& avl)= delete;
     void insert(const K& key, D* data);
     void delete_vertice(const K& key);
-    D* find(const K& key);
+    Node<K,D>* find(const K& key);
 
     class Error{};
     class KeyExists{};
@@ -36,9 +36,66 @@ public:
 
 };
 
-~Avl(){
-
+template <class K, class D>
+Avl<K,D>::~Avl(){
+    delete this->root;
 }
+
+template <class K, class D>
+void Avl<K,D>::delete_vertice(const K& key){
+    // left->right->right....
+    Node<K,D>* vertice = this->find(key);
+    if(vertice == nullptr) throw Avl<K,D>::KeyNotFound();
+
+    // only one element
+    if(nearest->isLeaf() && nearest->isRoot()){
+        this->head = nullptr;
+        return;
+    }
+        //leaf and not root => papa exists
+    else if(nearest->isLeaf()){
+        remove_from_papa(nearest);
+        this->fix_BFs(nearest->getPapa()); // fix balance from leaf parent
+        this->update_head(nearest->getPapa());
+    }
+        //no left son but not leaf => right son and papa exists
+    else if(nearest->getLeft()== nullptr){
+        if(nearest->getPapa() != nullptr) fix_relations(nearest->getPapa(),nearest->getRight());
+        else nearest->getRight()->setPapa(nullptr);
+        fix_BFs(nearest->getRight());
+        this->update_head(nearest->getRight());
+    }
+        //find the left->right->right....son
+    else{
+        std::shared_ptr<Node<K,D>> current = nearest->getLeft();
+        while (current->getRight()!= nullptr){
+            current = current->getRight();
+        }
+        // path is only one to the left
+        if(current == nearest->getLeft()){
+            if (nearest->getPapa() != nullptr)fix_relations(nearest->getPapa(),current);
+            else current->setPapa(nullptr); // if the nearest is the root.
+            if(nearest->getRight() != nullptr) fix_relations(current,nearest->getRight());
+            else current->setRight(nullptr);
+            this->fix_BFs(current);
+            this->update_head(current);
+        }
+        else{
+            std::shared_ptr<Node<K,D>> changed_from = current->getPapa(); // save parent of leaf to fix balance from
+            if(current->getLeft() != nullptr) fix_relations(current->getPapa(),current->getLeft());
+            else current->getPapa()->setRight(nullptr);
+            if(nearest->getPapa() != nullptr) fix_relations(nearest->getPapa(),current);
+            else current->setPapa(nullptr); // if the nearest is the root
+            if(nearest->getRight() != nullptr) fix_relations(current,nearest->getRight());
+            else current->setRight(nullptr);
+            fix_relations(current,nearest->getLeft());
+            this->fix_BFs(changed_from);
+            this->update_head(current);
+        }
+
+    }
+}
+
 
 
 
