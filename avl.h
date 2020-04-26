@@ -21,6 +21,10 @@ private:
     void rotateRR(Node<K,D>* node);
     int getBF(Node<K,D>* node);
     Node<K,D> getNextAvailable(Node<K,D>& node);
+    void removeFromParent(Node<K,D>* node);
+    bool isRightSon(Node<K,D>* node);
+    bool isLeftSon(Node<K,D>* node);
+
 
 public:
     Avl():root(nullptr){}
@@ -28,7 +32,7 @@ public:
     Avl(const Avl& avl)= delete;
     Avl& operator=(const Avl& avl)= delete;
     void insert(const K& key, D* data);
-    void delete_vertice(const K& key);
+    void deleteVertice(const K& key);
     Node<K,D>* find(const K& key);
 
     class Error{};
@@ -43,63 +47,67 @@ Avl<K,D>::~Avl(){
 }
 
 template <class K, class D>
-void Avl<K,D>::delete_vertice(const K& key){
+void Avl<K,D>::deleteVertice(const K& key){
+
     // left->right->right....
     Node<K,D>* vertice = this->find(key);
     if(vertice == nullptr) throw Avl<K,D>::KeyNotFound();
 
     // only one element
-    if(nearest->isLeaf() && nearest->isRoot()){
-        this->head = nullptr;
+    if(vertice->isLeaf() && vertice->isRoot()){
+        delete vertice;
+        this->root = nullptr;
         return;
     }
-        //leaf and not root => papa exists
-    else if(nearest->isLeaf()){
-        remove_from_papa(nearest);
-        this->fix_BFs(nearest->getPapa()); // fix balance from leaf parent
-        this->update_head(nearest->getPapa());
+
+    //leaf and not root => parent exists
+    else if(vertice->isLeaf()){
+        removeFromPaparent(vertice);
+        this->fixBalanceFactor(vertice->getParent()); // fix balance from leaf parent
+        this->updateRoot(vertice->getParent());
     }
-        //no left son but not leaf => right son and papa exists
-    else if(nearest->getLeft()== nullptr){
-        if(nearest->getPapa() != nullptr) fix_relations(nearest->getPapa(),nearest->getRight());
-        else nearest->getRight()->setPapa(nullptr);
-        fix_BFs(nearest->getRight());
-        this->update_head(nearest->getRight());
+    //no left son but not leaf => right son
+    else if(vertice->getLeft()== nullptr){
+        if(vertice->getParent() != nullptr) fixRelations(vertice->getParent(),vertice->getRight());
+        else vertice->getRight()->setParent(nullptr);
+        fix_BFs(vertice->getRight());
+        this->updateRoot(vertice->getRight());
     }
         //find the left->right->right....son
     else{
-        std::shared_ptr<Node<K,D>> current = nearest->getLeft();
+        Node<K,D>* current = vertice->getLeft();
         while (current->getRight()!= nullptr){
             current = current->getRight();
         }
         // path is only one to the left
-        if(current == nearest->getLeft()){
-            if (nearest->getPapa() != nullptr)fix_relations(nearest->getPapa(),current);
-            else current->setPapa(nullptr); // if the nearest is the root.
-            if(nearest->getRight() != nullptr) fix_relations(current,nearest->getRight());
+        if(current == vertice->getLeft()){
+            if (vertice->getParent() != nullptr)fixRelations(vertice->getParent(),current);
+            else current->setParent(nullptr); // if the vertice is the root.
+            if(vertice->getRight() != nullptr) fixRelations(current,vertice->getRight());
             else current->setRight(nullptr);
-            this->fix_BFs(current);
-            this->update_head(current);
+            this->fixBalanceFactor(current);
+            this->updateRoot(current);
         }
         else{
-            std::shared_ptr<Node<K,D>> changed_from = current->getPapa(); // save parent of leaf to fix balance from
-            if(current->getLeft() != nullptr) fix_relations(current->getPapa(),current->getLeft());
-            else current->getPapa()->setRight(nullptr);
-            if(nearest->getPapa() != nullptr) fix_relations(nearest->getPapa(),current);
-            else current->setPapa(nullptr); // if the nearest is the root
-            if(nearest->getRight() != nullptr) fix_relations(current,nearest->getRight());
+            Node<K,D>* changedFrom = current->getParent(); // save parent of leaf to fix balance from
+            if(current->getLeft() != nullptr) fixRelations(current->getPapa(),current->getLeft());
+            else current->getParent()->setRight(nullptr);
+            if(vertice->getParent() != nullptr) fixRelations(vertice->getPapa(),current);
+            else current->getParent(nullptr); // if the nearest is the root
+            if(vertice->getRight() != nullptr) fixRelations(current,vertice->getRight());
             else current->setRight(nullptr);
-            fix_relations(current,nearest->getLeft());
-            this->fix_BFs(changed_from);
-            this->update_head(current);
+            fixRelations(current,vertice->getLeft());
+            this->fix_BFs(changedFrom);
+            this->updateRoot(current);
         }
 
     }
+    delete vertice;
 }
 
 // Gets the key and returns element with the nearest existing key
 template <class K, class D>
-Node<K,D> getNextAvailable(Node<K,D>& node){
+Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
     // Avl is empty
     if(this->root == nullptr) return nullptr;
 
@@ -125,7 +133,7 @@ Node<K,D> getNextAvailable(Node<K,D>& node){
 }
 
 template <class K, class D>
-void insert(const K& key, D* data){
+void Avl<K,D>::insert(const K& key, D* data){
     Node<K,D> nearest = getNextAvailable(key);
     if(nearest != nullptr){
         if (nearest->getKey()==key) throw Avl<K,D>::KeyExists();
@@ -174,5 +182,32 @@ void fixBalanceFactor(Node<K,D>* leaf){
 
 }
 
+
+template <class K, class D>
+void Avl<K,D>::removeFromParent(Node<K,D>* node){
+    if(node->isRoot()) return;
+    if(isLeftSon(node)) node->getParent()->setLeft(nullptr);
+    else node->getParent()->setRight(nullptr);
+}
+
+template <class K, class D>
+bool Avl<K,D>::isLeftSon(Node<K,D>* node){
+    if(node->getParent()->getLeft()== nullptr) return false;
+    return node->getParent()->getLeft()->getKey()==node->getKey();
+}
+
+template <class K, class D>
+bool Avl<K,D>::isRightSon(Node<K,D>* node){
+    if(node->getParent()->getRight()== nullptr) return false;
+    return node->getParent()->getRight()->getKey()==node->getKey();
+}
+
+template <class K, class D>
+void Avl<K,D>::updateRoot(Node<K,D>* node){
+    while(node->getPapa() != nullptr){
+        node = node->getPapa();
+    }
+    this->root = node;
+}
 
 #endif //DTS2_EX1_AVL_H
