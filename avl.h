@@ -175,7 +175,7 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* vertice){
         vertice = vertice->getParent();
         updateRoot(vertice);
     }
-    if(vertice->getParent() == nullptr) return;
+    if(vertice == nullptr) return;
 
     while(vertice){
 
