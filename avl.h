@@ -338,27 +338,6 @@ void Avl<K,D>::rotateRL(Node<K,D>* C){
     B->calcHeight();
     A->calcHeight();
 }
-template <class K, class D>
-void Avl<K,D>::rotateLR(Node<K,D>* C){
-    Node<K,D>* B = C->getLeft();
-    Node<K,D>* A = B->getRight();
-    Node<K,D>* ALeft = A->getLeft();
-    Node<K,D>* ARight = A->getRight();
-    Node<K,D>* CParent = C->getParent();
-    A->setLeft(B);
-    B->setRight(ALeft);
-    A->setRight(C);
-    C->setLeft(ARight);
-    if(CParent == nullptr) A->setPapa(nullptr);
-    else fix_relations(CParent,A);
-    fixRelations(A,C);
-    fixRelations(A,B);
-    if(ALeft != nullptr) fixRelations(B,ALeft);
-    if(ARight != nullptr) fixRelations(C,ARight);
-    B->calcHeight();
-    C->calcHeight();
-    A->calcHeight();
-}
 
 
 
