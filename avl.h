@@ -226,8 +226,8 @@ void Avl<K,D>::rotateLL(Node<K,D>* node){
     if(rightChild != nullptr){
         fixRelations(node,rightChild);
     }
-    leftChild->calcHeight();
     node->calcHeight();
+    leftChild->calcHeight();
 }
 
 template <class K, class D>
@@ -240,7 +240,7 @@ void Avl<K,D>::rotateLR(Node<K,D>* nodeC){
     // left rotation
     nodeB->setRight(nodeLeftA);
     nodeA->setLeft(nodeB);
-    nodeC->setLeft(nodeA);
+
 
     // right rotation
     nodeC->setLeft(nodeRightA);
