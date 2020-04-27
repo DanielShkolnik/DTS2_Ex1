@@ -12,13 +12,13 @@ template <class K, class D>
 class Avl{
 private:
     Node<K,D> root;
-    void fixBalanceFactor(Node<K,D>* leaf);
-    void updateRoot(Node<K,D>* root);
-    void fixRelations(Node<K,D>* v1, Node<K,D>* v2);
+    void fixBalanceFactor(Node<K,D>* childVertice);
+    void updateRoot(Node<K,D>* node);
+    void fixRelations(Node<K,D>* parent, Node<K,D>* son);
     void rotateLL(Node<K,D>* node);
-    void rotateLR(Node<K,D>* node);
-    void rotateRL(Node<K,D>* node);
-    void rotateRR(Node<K,D>* node);
+    void rotateLR(Node<K,D>* C);
+    void rotateRL(Node<K,D>* C);
+    void rotateRR(Node<K,D>* B);
     int getBF(Node<K,D>* node);
     Node<K,D> getNextAvailable(Node<K,D>& node);
     void removeFromParent(Node<K,D>* node);
@@ -196,7 +196,7 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* childVertice){
 
 template <class K, class D>
 void Avl<K,D>::rotateLL(Node<K,D>* node){
-    if(node == nullptr){ return; }
+    if(node == nullptr) return;
     Node<K,D>* parentNode = node->getParent();
     Node<K,D>* leftChild = node->getLeft();
     Node<K,D>* rightChild = leftChild->getRight();
@@ -275,6 +275,7 @@ int Avl<K,D>::getBF(Node<K,D>* node){
 }
 template <class K, class D>
 void Avl<K,D>::rotateRR(Node<K,D>* B){
+    if(B == nullptr) return;
     Node<K,D>* BParent=B->getPapa();
     Node<K,D>* A=B->getRight();
     Node<K,D>* ALeft=A->getLeft();
@@ -290,6 +291,8 @@ void Avl<K,D>::rotateRR(Node<K,D>* B){
 
 template <class K, class D>
 void Avl<K,D>::rotateRL(Node<K,D>* C){
+    if(C == nullptr) return;
+
     Node<K,D>* CParent=C->getParent();
     Node<K,D>* B=C->getRight();
     Node<K,D>* A=B->getLeft();
@@ -309,7 +312,27 @@ void Avl<K,D>::rotateRL(Node<K,D>* C){
     B->calcHeight();
     A->calcHeight();
 }
-
+template <class K, class D>
+void Avl<K,D>::rotateLR(Node<K,D>* C){
+    Node<K,D>* B = C->getLeft();
+    Node<K,D>* A = B->getRight();
+    Node<K,D>* ALeft = A->getLeft();
+    Node<K,D>* ARight = A->getRight();
+    Node<K,D>* CParent = C->getParent();
+    A->setLeft(B);
+    B->setRight(ALeft);
+    A->setRight(C);
+    C->setLeft(ARight);
+    if(CParent == nullptr) A->setPapa(nullptr);
+    else fix_relations(CParent,A);
+    fixRelations(A,C);
+    fixRelations(A,B);
+    if(ALeft != nullptr) fixRelations(B,ALeft);
+    if(ARight != nullptr) fixRelations(C,ARight);
+    B->calcHeight();
+    C->calcHeight();
+    A->calcHeight();
+}
 
 
 
