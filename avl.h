@@ -168,10 +168,9 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* childVertice){
 
         // Calc balance factor of parent
         parentVertice = childVertice->getParent();
-        int parentBF = parentVertice->calcBalanceFactor();
 
         // If current vertice height hasn't changed due to rotations and parent BF is legal - tree is balanced
-        if(currentHeight == childVertice->getHeight() && parentBF < 2 && parentBF > -2){
+        if(currentHeight == childVertice->getHeight() && childBF < 2 && childBF > -2){
             return;
         }
 
@@ -197,7 +196,20 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* childVertice){
 
 template <class K, class D>
 void Avl<K,D>::rotateLL(Node<K,D>* node){
-
+    if(node == nullptr){ return; }
+    Node<K,D>* parentNode = node->getParent();
+    Node<K,D>* leftChild = node->getLeft();
+    Node<K,D>* rightChild = leftChild->getRight();
+    leftChild->setRight(node);
+    node->setLeft(rightChild);
+    if(parentNode != nullptr) {
+        fixRelations(parentNode, leftChild);
+    }
+    if(rightChild != nullptr){
+        fixRelations(node,rightChild);
+    }
+    leftChild->calcHeight();
+    node->calcHeight();
 }
 
 
