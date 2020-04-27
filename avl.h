@@ -12,7 +12,7 @@ template <class K, class D>
 class Avl{
 private:
     Node<K,D> root;
-    void fixBalanceFactor(Node<K,D>* childVertice);
+    void fixBalanceFactor(Node<K,D>* childVertice);  //Need fix
     void updateRoot(Node<K,D>* node);
     void fixRelations(Node<K,D>* parent, Node<K,D>* son);
     void rotateLL(Node<K,D>* node);
@@ -20,7 +20,7 @@ private:
     void rotateRL(Node<K,D>* C);
     void rotateRR(Node<K,D>* B);
     int getBF(Node<K,D>* node);
-    Node<K,D> getNextAvailable(Node<K,D>& node);
+    Node<K,D> getNextAvailable(Node<K,D>& node);  //Need fix
     void removeFromParent(Node<K,D>* node);
     bool isRightSon(Node<K,D>* node);
     bool isLeftSon(Node<K,D>* node);
@@ -272,8 +272,8 @@ bool Avl<K,D>::isRightSon(Node<K,D>* node){
 
 template <class K, class D>
 void Avl<K,D>::updateRoot(Node<K,D>* node){
-    while(node->getPapa() != nullptr){
-        node = node->getPapa();
+    while(node->getParent() != nullptr){
+        node = node->getParent();
     }
     this->root = node;
 }
