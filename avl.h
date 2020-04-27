@@ -118,23 +118,28 @@ Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
 
     // Create iterator
     Node<K,D>* iter = this->root;
+    Node<K,D>* previous;
 
-    // Start recursive search on right sub-tree
-    if(node->key = iter->key){
-        return iter;
+    while(iter){
+        previous = this->root;
+
+        // I'm the nearest to myself
+        if(node->key = iter->key){
+            return iter;
+        }
+
+        if(node.getKey() > iter->getKey()){
+            iter = iter->getRight();
+        }
+
+        if(node.getKey() < iter->getKey()){
+            iter = iter->getLeft();
+        }
+
+        iter = this->root;
     }
 
-    // Start recursive search on right sub-tree
-    if(node->key > iter->key){
-        getNextAvailable(iter->getRight());
-    }
-
-    // Start recursive search on left sub-tree
-    if(node->key < iter->key){
-        getNextAvailable(iter->getLeft());
-    }
-
-    return this->root;
+    return previous;
 }
 
 template <class K, class D>
