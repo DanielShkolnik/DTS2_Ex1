@@ -12,7 +12,7 @@ template <class K, class D>
 class Avl{
 private:
     Node<K,D> root;
-    void fixBalanceFactor(Node<K,D>* childVertice);  //Need fix
+    void fixBalanceFactor(Node<K,D>* childVertice);
     void updateRoot(Node<K,D>* node);
     void fixRelations(Node<K,D>* parent, Node<K,D>* son);
     void rotateLL(Node<K,D>* node);
@@ -41,10 +41,7 @@ public:
 
 };
 
-template <class K, class D>
-Avl<K,D>::~Avl(){
-    delete this->root;
-}
+
 
 template <class K, class D>
 void Avl<K,D>::deleteVertice(const K& key){
@@ -77,7 +74,7 @@ void Avl<K,D>::deleteVertice(const K& key){
     else if(vertice->getLeft()== nullptr){
         if(vertice->getParent() != nullptr) fixRelations(vertice->getParent(),vertice->getRight());
         else vertice->getRight()->setParent(nullptr);
-        fix_BFs(vertice->getRight());
+        fixBalanceFactor(vertice->getRight());
         this->updateRoot(vertice->getRight());
     }
 
@@ -99,14 +96,14 @@ void Avl<K,D>::deleteVertice(const K& key){
 
         else{
             Node<K,D>* changedFrom = current->getParent(); // save parent of leaf to fix balance from
-            if(current->getLeft() != nullptr) fixRelations(current->getPapa(),current->getLeft());
+            if(current->getLeft() != nullptr) fixRelations(current->getParent(),current->getLeft());
             else current->getParent()->setRight(nullptr);
-            if(vertice->getParent() != nullptr) fixRelations(vertice->getPapa(),current);
-            else current->getParent(nullptr); // if the nearest is the root
+            if(vertice->getParent() != nullptr) fixRelations(vertice->getParent(),current);
+            else current->setParent(nullptr); // if the nearest is the root
             if(vertice->getRight() != nullptr) fixRelations(current,vertice->getRight());
             else current->setRight(nullptr);
             fixRelations(current,vertice->getLeft());
-            this->fix_BFs(changedFrom);
+            this->fixBalanceFactor(changedFrom);
             this->updateRoot(current);
         }
 
@@ -125,22 +122,21 @@ Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
     Node<K,D>* previous;
 
     while(iter){
-        previous = this->root;
+        previous = iter;
 
         // I'm the nearest to myself
-        if(node->key = iter->key){
-            Avl<K,D>::KeyExists();
+        if(node->key == iter->key){
+           throw Avl<K,D>::KeyExists();
         }
 
-        if(node.getKey() > iter->getKey()){
+        else if(node->getKey() > iter->getKey()){
             iter = iter->getRight();
         }
 
-        if(node.getKey() < iter->getKey()){
+        else if(node->getKey() < iter->getKey()){
             iter = iter->getLeft();
         }
 
-        iter = this->root;
     }
 
     return previous;
@@ -153,20 +149,20 @@ void Avl<K,D>::insert(const K& key, D* data){
 
     // find suitable place for insertion
     try {
-        nearest = getNextAvailable(key);
-    } catch(const Avl<K,D>::KeyExists&){
-        throw Avl<K,D>::KeyExists();
+        nearest = this->getNextAvailable(key);
+    } catch(const Avl<K,D>::KeyExists&) {
+        throw Avl<K, D>::KeyExists();
     }
 
-    Node<K,D> newNode = new Node<K,D>(key,data,nearest);
+    Node<K,D>* newNode = new Node<K,D>(key,data,nearest);
     if(nearest == nullptr){
         this->root = newNode;
         return;
     }
-    if(key > nearest->getKey()) nearest.setRight();
-    else if (key < nearest->getKey()) nearest.getLeft();
+    if(key > nearest->getKey()) nearest->setRight(newNode);
+    else if (key < nearest->getKey()) nearest->setLeft(newNode);
     this->fixBalanceFactor(newNode);
-    this->update_head(newNode);
+    this->updateRoot(newNode);
 }
 
 template <class K, class D>
@@ -361,6 +357,44 @@ void Avl<K,D>::rotateRL(Node<K,D>* C){
     A->calcHeight();
 }
 
+template <class K, class D, class P>
+void inorder(Node<K,D>* node, P predicate){
+    if (node== nullptr) return;
+    inorder(node->getLeft(),predicate);
+    predicate(node);
+    inorder(node->getRight(),predicate);
+}
+
+template <class K, class D, class P>
+void preorder(Node<K,D>* node, P predicate){
+    if (node== nullptr) return;
+    predicate(node);
+    preorder(node->getLeft(),predicate);
+    preorder(node->getRight(),predicate);
+}
+
+template <class K, class D, class P>
+void postorder(Node<K,D>* node, P predicate){
+    if (node== nullptr) return;
+    postorder(node->getLeft(),predicate);
+    postorder(node->getRight(),predicate);
+    predicate(node);
+}
+
+template <class K, class D>
+// inner destroy node without rolls (predicate for destructor)
+void destroy(Node<K,D>* node){
+    node->setPapa(nullptr);
+    node->setRight(nullptr);
+    node->setLeft(nullptr);
+    delete node;
+}
+
+
+template <class K, class D>
+Avl<K,D>::~Avl(){
+    postorder<K,D,void (Node<K,D>* node)>(this->head,destroy);
+}
 
 
 
