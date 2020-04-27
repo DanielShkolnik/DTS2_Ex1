@@ -10,32 +10,83 @@
 using  namespace std;
 
 void print(Node<int,int>* node){
-    std::cout << *(node->getData()) << std::endl;
+    std::cout << *(node->getData()) << "-";
 }
 
 
-int main(int argc, const char**argv) {
-    //Test1
-    Avl<int,int> avl;
-    int a=1,c=5,d=4;
-    int* b=&a;
-    //*a=1; *b=5; *c=3; *d=2; *e=10; *f=15; *g=20; *h=7; *i=9; *j=4; *k=11;
 
-    //avl.insert(*a,a);
-    avl.insert(*b,b);
-    /*
-    avl.insert(*c,c);
-    avl.insert(*d,d);
-    avl.insert(*e,e);
-    avl.insert(*f,f);
-    avl.insert(*g,g);
-    avl.insert(*h,h);
-    avl.insert(*i,i);
-    avl.insert(*j,j);
-    avl.insert(*k,k);
+int main(int argc, const char**argv) {
+
+    // Test1 - Insersion
+/*Avl<int,int> avl;
+int a=1,cc=5,dd=2,ee=3,ff=10,gg=19,hh=16,ii=20,jj=30,kk=4;
+int* b=&a;
+int* c=&cc;
+int* d=&dd;
+int* e=&ee;
+int* f=&ff;
+int* g=&gg;
+int* h=&hh;
+int* i=&ii;
+int* j=&jj;
+int* k=&kk;
+
+
+
+avl.insert(*b,b);
+avl.insert(*c,c);
+avl.insert(*d,d);
+try {
+avl.insert(*b,b);
+} catch (const Avl<int,int>::KeyExists&){
+cout << "Test key exist!" << endl;
+}
+avl.insert(*e,e);
+avl.insert(*f,f);
+avl.insert(*g,g);
+avl.insert(*h,h);
+avl.insert(*i,i);
+avl.insert(*j,j);
+avl.insert(*k,k);
+
+Node<int,int>* root = avl.getRoot();
+
+cout <<  "preorder" << endl;
+preorder<int,int,void (Node<int,int>* node)>(root,print);
+cout << endl;
+cout << "inorder" << endl;
+inorder<int,int,void (Node<int,int>* node)>(root,print);
 */
-    Node<int,int>* root = avl.getRoot();
-    inorder<int,int,void (Node<int,int>* node)>(root,print);
+    // Test2 - LL
+    //cout << endl;
+    cout << "Test LL!" << endl;
+    Avl<int,int> avl2;
+    int x=15,y=10,z=5,w=12,v=17,u=20, t=11,s=13,q=14;
+    int* xx=&x; int* yy=&y; int* zz=&z;int* ww=&w;int* vv=&v; int* uu=&u;int* tt=&t; int*ss = &s; int* qq=&q;
+    avl2.insert(*xx,xx);
+    avl2.insert(*yy,yy);
+    avl2.insert(*zz,zz);
+    avl2.insert(*ww,ww);
+    avl2.insert(*vv,vv);
+    avl2.insert(*uu,uu);
+    avl2.insert(*tt,tt);
+    avl2.insert(*ss,ss);
+    avl2.insert(*qq,qq);
+
+    cout << "tree before deletion" << endl;
+    preorder<int,int,void (Node<int,int>* node)>(avl2.getRoot(),print);
+    cout << endl;
+
+
+    avl2.deleteVertice(*vv);
+
+    cout << "tree after deletion" << endl;
+
+    cout <<  "preorder" << endl;
+    preorder<int,int,void (Node<int,int>* node)>(avl2.getRoot(),print);
+    cout << endl;
+    cout << "inorder" << endl;
+    inorder<int,int,void (Node<int,int>* node)>(avl2.getRoot(),print);
 
 
     return 0;

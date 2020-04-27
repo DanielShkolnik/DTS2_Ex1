@@ -57,7 +57,7 @@ void Avl<K,D>::deleteVertice(const K& key){
         throw Avl<K,D>::KeyNotFound();
     }
 
-    assert(vertice== nullptr);
+    assert(vertice != nullptr);
 
     // only one element
     if(vertice->isLeaf() && vertice->isRoot()){
@@ -73,7 +73,7 @@ void Avl<K,D>::deleteVertice(const K& key){
         this->updateRoot(vertice->getParent());
     }
 
-    //no left son but not leaf => right son
+    //no left son but not leaf => right son and parent exists
     else if(vertice->getLeft()== nullptr){
         if(vertice->getParent() != nullptr) fixRelations(vertice->getParent(),vertice->getRight());
         else vertice->getRight()->setParent(nullptr);
@@ -89,7 +89,7 @@ void Avl<K,D>::deleteVertice(const K& key){
         }
         // path is only one to the left
         if(current == vertice->getLeft()){
-            if (vertice->getParent() != nullptr)fixRelations(vertice->getParent(),current);
+            if (vertice->getParent() != nullptr) fixRelations(vertice->getParent(),current);
             else current->setParent(nullptr); // if the vertice is the root.
             if(vertice->getRight() != nullptr) fixRelations(current,vertice->getRight());
             else current->setRight(nullptr);
@@ -173,6 +173,7 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* vertice){
     if(vertice->isLeaf()){
         vertice->calcHeight();
         vertice = vertice->getParent();
+        updateRoot(vertice);
     }
     if(vertice->getParent() == nullptr) return;
 
