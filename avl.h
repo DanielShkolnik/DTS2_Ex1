@@ -12,7 +12,7 @@ template <class K, class D>
 class Avl{
 private:
     Node<K,D> root;
-    void fixBalanceFactor(Node<K,D>* childVertice);  //Need fix
+    void fixBalanceFactor(Node<K,D>* childVertice);
     void updateRoot(Node<K,D>* node);
     void fixRelations(Node<K,D>* parent, Node<K,D>* son);
     void rotateLL(Node<K,D>* node);
@@ -118,22 +118,21 @@ Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
     Node<K,D>* previous;
 
     while(iter){
-        previous = this->root;
+        previous = iter;
 
         // I'm the nearest to myself
-        if(node->key = iter->key){
+        if(node->key == iter->key){
             return iter;
         }
 
-        if(node.getKey() > iter->getKey()){
+        else if(node->getKey() > iter->getKey()){
             iter = iter->getRight();
         }
 
-        if(node.getKey() < iter->getKey()){
+        else if(node->getKey() < iter->getKey()){
             iter = iter->getLeft();
         }
 
-        iter = this->root;
     }
 
     return previous;
