@@ -11,7 +11,7 @@
 template <class K, class D>
 class Avl{
 private:
-    Node<K,D> root;
+    Node<K,D>* root;
     void fixBalanceFactor(Node<K,D>* childVertice);
     void updateRoot(Node<K,D>* node);
     void fixRelations(Node<K,D>* parent, Node<K,D>* son);
@@ -20,7 +20,7 @@ private:
     void rotateRL(Node<K,D>* C);
     void rotateRR(Node<K,D>* B);
     int getBF(Node<K,D>* node);
-    Node<K,D>* getNextAvailable(Node<K,D>& node);
+    Node<K,D>* getNextAvailable(K key);
     void removeFromParent(Node<K,D>* node);
     bool isRightSon(Node<K,D>* node);
     bool isLeftSon(Node<K,D>* node);
@@ -39,6 +39,9 @@ public:
     class KeyExists{};
     class KeyNotFound{};
 
+    Node<K,D>* getRoot(){
+        return this->root;
+    }
 };
 
 
@@ -113,27 +116,27 @@ void Avl<K,D>::deleteVertice(const K& key){
 
 // Gets the key and returns element with the nearest existing key
 template <class K, class D>
-Node<K,D>* Avl<K,D>::getNextAvailable(Node<K,D>& node){
+Node<K,D>* Avl<K,D>::getNextAvailable(K key){
     // Avl is empty
     if(this->root == nullptr) return nullptr;
 
     // Create iterator
     Node<K,D>* iter = this->root;
-    Node<K,D>* previous;
+    Node<K,D>* previous = this->root;
 
     while(iter){
         previous = iter;
 
         // I'm the nearest to myself
-        if(node->key == iter->key){
+        if(key == iter->getKey()){
            throw Avl<K,D>::KeyExists();
         }
 
-        else if(node->getKey() > iter->getKey()){
+        else if(key > iter->getKey()){
             iter = iter->getRight();
         }
 
-        else if(node->getKey() < iter->getKey()){
+        else if(key < iter->getKey()){
             iter = iter->getLeft();
         }
 
@@ -182,7 +185,7 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* vertice){
         vertice->calcHeight();
 
         // get vertice BF
-        int currentBF = vertice->calcBalanceFactor();
+        int currentBF = this->getBF(vertice);
 
         // If current vertice height hasn't changed due to rotations and parent BF is legal - tree is balanced
         if(oldHeight == vertice->getHeight() && currentBF < 2 && currentBF > -2){
@@ -233,7 +236,7 @@ void Avl<K,D>::rotateLR(Node<K,D>* nodeC){
     Node<K,D>* nodeB = nodeC->getLeft();
     Node<K,D>* nodeA = nodeB->getRight();
     Node<K,D>* nodeRightA = nodeA->getRight();
-    Node<K,D>* nodeLeftA = nodeA->getleft();
+    Node<K,D>* nodeLeftA = nodeA->getLeft();
 
     // left rotation
     nodeB->setRight(nodeLeftA);
@@ -386,7 +389,7 @@ void postorder(Node<K,D>* node, P predicate){
 template <class K, class D>
 // inner destroy node without rolls (predicate for destructor)
 void destroy(Node<K,D>* node){
-    node->setPapa(nullptr);
+    node->setParent(nullptr);
     node->setRight(nullptr);
     node->setLeft(nullptr);
     delete node;
@@ -395,7 +398,7 @@ void destroy(Node<K,D>* node){
 
 template <class K, class D>
 Avl<K,D>::~Avl(){
-    postorder<K,D,void (Node<K,D>* node)>(this->head,destroy);
+    postorder<K,D,void (Node<K,D>* node)>(this->root,destroy);
 }
 
 

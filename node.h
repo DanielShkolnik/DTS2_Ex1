@@ -5,6 +5,14 @@
 #ifndef DTS2_EX1_NODE_H
 #define DTS2_EX1_NODE_H
 
+
+static int max(int a, int b){
+    if (a>b) return a;
+    return b;
+}
+
+
+
 template <class K, class D>
 class Node{
 private:
@@ -86,11 +94,6 @@ public:
 
 };
 
-
-static int max(int a, int b){
-    if (a>b) return a;
-    return b;
-}
 
 
 
