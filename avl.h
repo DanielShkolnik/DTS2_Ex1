@@ -318,10 +318,11 @@ int Avl<K,D>::getBF(Node<K,D>* node){
     else if(node->getLeft()==nullptr) return -(node->getRight()->getHeight()); // // no left son
     return node->getLeft()->getHeight()-node->getRight()->getHeight();
 }
+
 template <class K, class D>
 void Avl<K,D>::rotateRR(Node<K,D>* B){
     if(B == nullptr) return;
-    Node<K,D>* BParent=B->getPapa();
+    Node<K,D>* BParent=B->getParent();
     Node<K,D>* A=B->getRight();
     Node<K,D>* ALeft=A->getLeft();
     A->setLeft(B);
