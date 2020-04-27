@@ -50,9 +50,14 @@ template <class K, class D>
 void Avl<K,D>::deleteVertice(const K& key){
 
     // left->right->right....
-    Node<K,D>* vertice = this->find(key);
-    if(vertice == nullptr) throw Avl<K,D>::KeyNotFound();
-
+    Node<K,D>* vertice = nullptr;
+    try{
+        vertice = this->find(key);
+    }
+    catch(const Avl<K,D>::KeyNotFound&){
+        throw Avl<K,D>::KeyNotFound();
+    }
+    assert(vertice== nullptr);
     // only one element
     if(vertice->isLeaf() && vertice->isRoot()){
         delete vertice;
@@ -209,5 +214,79 @@ void Avl<K,D>::updateRoot(Node<K,D>* node){
     }
     this->root = node;
 }
+
+template <class K, class D>
+void Avl<K,D>::fixRelations(Node<K,D>* parent, Node<K,D>* son){
+    if (!parent || !son) throw Avl<K,D>::Error();
+    if (parent->getKey()>son->getKey()) parent->setLeft(son);
+    else parent->setRight(son);
+    son->setParent(parent);
+}
+
+template <class K, class D>
+Node<K,D>* Avl<K,D>::find(const K& key){
+    if(this->root == nullptr) throw Avl<K,D>::KeyNotFound(); // avl is empty->
+    Node<K,D>* currentNode = this->root;
+    Node<K,D>* prevNode = this->root;
+    while (currentNode){
+        prevNode = currentNode;
+        if(key > currentNode->getKey()){
+            currentNode = currentNode->getRight();
+        } else if(key == currentNode->getKey()){
+            return currentNode;
+        } else{
+            currentNode = currentNode->getLeft();
+        }
+    }
+    throw Avl<K,D>::KeyNotFound();
+}
+
+template <class K, class D>
+int Avl<K,D>::getBF(Node<K,D>* node){
+    if(node->getLeft()== nullptr && node->getRight()== nullptr) return 0; // leaf
+    else if(node->getRight()==nullptr) return node->getLeft()->getHeight(); // no right son
+    else if(node->getLeft()==nullptr) return -(node->getRight()->getHeight()); // // no left son
+    return node->getLeft()->getHeight()-node->getRight()->getHeight();
+}
+template <class K, class D>
+void Avl<K,D>::rotateRR(Node<K,D>* B){
+    Node<K,D>* BParent=B->getPapa();
+    Node<K,D>* A=B->getRight();
+    Node<K,D>* ALeft=A->getLeft();
+    A->setLeft(B);
+    B->setRight(ALeft);
+    if (BParent!=nullptr)fixRelations(BParent,A);
+    else A->setParent(nullptr);
+    fixRelations(A,B);
+    if (ALeft!= nullptr) fixRelations(B,ALeft);
+    B->calcHeight();
+    A->calcHeight();
+}
+
+template <class K, class D>
+void Avl<K,D>::rotateRL(Node<K,D>* C){
+    Node<K,D>* CParent=C->getParent();
+    Node<K,D>* B=C->getRight();
+    Node<K,D>* A=B->getLeft();
+    Node<K,D>* ALeft=A->getLeft();
+    Node<K,D>* ARight=A->getRight();
+    A->setLeft(C);
+    C->setRight(ALeft);
+    A->setRight(B);
+    B->setLeft(ARight);
+    if(CParent!= nullptr)fixRelations(CParent,A);
+    else A->setParent(nullptr);
+    if(ALeft!= nullptr)fixRelations(C,ALeft);
+    fixRelations(A,B);
+    fixRelations(A,C);
+    if(ARight!= nullptr)fixRelations(B,ARight);
+    C->calcHeight();
+    B->calcHeight();
+    A->calcHeight();
+}
+
+
+
+
 
 #endif //DTS2_EX1_AVL_H
