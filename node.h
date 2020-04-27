@@ -69,8 +69,8 @@ public:
 
 
     //List node methods
-    Node(K key, D* data,Node* prev,Node* next):key(key),data(data),left(prev),right(next),height(1){}
-    Node(K key, D* data):key(key),data(data),left(nullptr),right(nullptr),height(1){}
+    Node(K key, D* data,Node* prev,Node* next):key(key),data(data),parent(nullptr),left(prev),right(next),height(1){}
+    Node(K key, D* data):key(key),data(data),parent(nullptr),left(nullptr),right(nullptr),height(1){}
     void setPrev(Node* prev){
         this->left=prev;
     }
