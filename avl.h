@@ -238,21 +238,24 @@ void Avl<K,D>::rotateLR(Node<K,D>* nodeC){
     // left rotation
     nodeB->setRight(nodeLeftA);
     nodeA->setLeft(nodeB);
-    nodeC->setLeft(nodeA);
 
     // right rotation
     nodeC->setLeft(nodeRightA);
-    nodeA->setLeft(nodeC);
+    nodeA->setRight(nodeC);
 
     // fix parent-child relations for A,B,C
-    if(nodeC->getParent() == nullptr) { nodeA->setParent(nullptr); }
+    if(nodeC->getParent() == nullptr) nodeA->setParent(nullptr);
+    else fixRelations(nodeC->getParent(),nodeA);
+    fixRelations(nodeA,nodeC);
+    fixRelations(nodeA,nodeB);
+
     if(nodeLeftA != nullptr) fixRelations(nodeB, nodeLeftA);
     if(nodeRightA != nullptr) fixRelations(nodeC, nodeRightA);
 
     // Calc new height for vertices who's height have changed
-    nodeA->calcHeight();
     nodeB->calcHeight();
     nodeC->calcHeight();
+    nodeA->calcHeight();
 }
 
 template <class K, class D>
