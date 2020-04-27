@@ -149,6 +149,39 @@ void Avl<K,D>::insert(const K& key, D* data){
     this->update_head(newNode);
 }
 
+template <class K, class D>
+void fixBalanceFactor(Node<K,D>* leaf){
+    if(leaf->getParent() == nullptr) return;
+    Node<K,D> currentVertice = leaf;
+    while(currentVertice){
+        Node<K,D> currentVertice = leaf;
+        int leafBF = currentVertice->calcBalanceFactor();
+        Node<K,D> parentVertice = currentVertice.getParent();
+        int parentBF = parentVertice.calcBalanceFactor();
+        if(leafBF >=0 && parentBF < 2 && parentBF > -2){
+            return;
+        }
+
+        //LL
+        if(BF == 2 && this->getBF(parentVertice->getLeft())>=0){
+            this->rotateLL(prev);
+        }
+        //LR
+        else if(BF == 2 && this->getBF(parentVertice->getLeft())==-1){
+            this->rotateLR(prev);
+        }
+            //RL
+        else if(BF==-2 && this->getBF(parentVertice->getRight())==1){
+            this->rotateRL(prev);
+        }
+            //RR
+        else if(BF==-2 && this->getBF(parentVertice->getRight())<=0){
+            this->rotateRR(prev);
+        }
+    }
+
+}
+
 
 template <class K, class D>
 void Avl<K,D>::removeFromParent(Node<K,D>* node){
