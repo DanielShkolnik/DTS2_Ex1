@@ -20,7 +20,7 @@ private:
     void rotateRL(Node<K,D>* C);
     void rotateRR(Node<K,D>* B);
     int getBF(Node<K,D>* node);
-    Node<K,D> getNextAvailable(Node<K,D>& node);  //Need fix
+    Node<K,D> getNextAvailable(Node<K,D>& node);
     void removeFromParent(Node<K,D>* node);
     bool isRightSon(Node<K,D>* node);
     bool isLeftSon(Node<K,D>* node);
@@ -213,21 +213,19 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* vertice){
 }
 
 template <class K, class D>
-void Avl<K,D>::rotateLL(Node<K,D>* node){
-    if(node == nullptr) return;
-    Node<K,D>* parentNode = node->getParent();
-    Node<K,D>* leftChild = node->getLeft();
-    Node<K,D>* rightChild = leftChild->getRight();
-    leftChild->setRight(node);
-    node->setLeft(rightChild);
-    if(parentNode != nullptr) {
-        fixRelations(parentNode, leftChild);
-    }
-    if(rightChild != nullptr){
-        fixRelations(node,rightChild);
-    }
-    node->calcHeight();
-    leftChild->calcHeight();
+void Avl<K,D>::rotateLL(Node<K,D>* B){
+    if(B == nullptr) return;
+    Node<K,D>* BParent = B->getParent();
+    Node<K,D>* A = B->getLeft();
+    Node<K,D>* ARight = A->getRight();
+    A->setRight(B);
+    B->setLeft(ARight);
+    if(BParent != nullptr) fixRelations(BParent, A);
+    else A->setParent(nullptr);
+    fixRelations(A,B);
+    if(ARight != nullptr) fixRelations(B,ARight);
+    B->calcHeight();
+    A->calcHeight();
 }
 
 template <class K, class D>
@@ -240,7 +238,7 @@ void Avl<K,D>::rotateLR(Node<K,D>* nodeC){
     // left rotation
     nodeB->setRight(nodeLeftA);
     nodeA->setLeft(nodeB);
-
+    nodeC->setLeft(nodeA);
 
     // right rotation
     nodeC->setLeft(nodeRightA);
