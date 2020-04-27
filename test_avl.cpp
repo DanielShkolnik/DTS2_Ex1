@@ -61,8 +61,8 @@ inorder<int,int,void (Node<int,int>* node)>(root,print);
     //cout << endl;
     cout << "Test LL!" << endl;
     Avl<int,int> avl2;
-    int x=15,y=10,z=5,w=12,v=17,u=20, t=11,s=13,q=14;
-    int* xx=&x; int* yy=&y; int* zz=&z;int* ww=&w;int* vv=&v; int* uu=&u;int* tt=&t; int*ss = &s; int* qq=&q;
+    int x=15,y=10,z=5,w=12,v=17,u=20, t=11,s=13,q=14,r=50,a=30,b=7,c=4,d=8;
+    int* xx=&x; int* yy=&y; int* zz=&z;int* ww=&w;int* vv=&v; int* uu=&u;int* tt=&t; int*ss = &s; int* qq=&q; int*rr = &r; int* aa=&a;int* bb=&b; int*cc = &c; int* dd=&d;
     avl2.insert(*xx,xx);
     avl2.insert(*yy,yy);
     avl2.insert(*zz,zz);
@@ -73,12 +73,42 @@ inorder<int,int,void (Node<int,int>* node)>(root,print);
     avl2.insert(*ss,ss);
     avl2.insert(*qq,qq);
 
-    cout << "tree before deletion" << endl;
-    preorder<int,int,void (Node<int,int>* node)>(avl2.getRoot(),print);
-    cout << endl;
-
-
     avl2.deleteVertice(*vv);
+
+    avl2.insert(*rr,rr);
+    avl2.insert(*aa,aa);
+
+    //RR
+    avl2.deleteVertice(*qq);
+    avl2.deleteVertice(*xx);
+    //LL
+    avl2.deleteVertice(*rr);
+    avl2.deleteVertice(*aa);
+
+    avl2.insert(*rr,rr);
+    avl2.insert(*aa,aa);
+    avl2.insert(*xx,xx);
+    avl2.insert(*vv,vv);
+
+
+    avl2.deleteVertice(*rr);
+    avl2.deleteVertice(*aa);
+
+
+    avl2.insert(*bb,bb);
+    avl2.insert(*cc,cc);
+    avl2.insert(*dd,dd);
+
+    avl2.deleteVertice(*zz);
+    avl2.deleteVertice(*cc);
+
+
+    //cout << "tree before deletion" << endl;
+    //preorder<int,int,void (Node<int,int>* node)>(avl2.getRoot(),print);
+    //cout << endl;
+
+
+
 
     cout << "tree after deletion" << endl;
 
@@ -89,6 +119,7 @@ inorder<int,int,void (Node<int,int>* node)>(root,print);
     inorder<int,int,void (Node<int,int>* node)>(avl2.getRoot(),print);
 
     int* xy = &30;
+
 
 
     return 0;
