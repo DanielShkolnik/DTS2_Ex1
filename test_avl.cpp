@@ -88,6 +88,8 @@ inorder<int,int,void (Node<int,int>* node)>(root,print);
     cout << "inorder" << endl;
     inorder<int,int,void (Node<int,int>* node)>(avl2.getRoot(),print);
 
+    int* xy = &30;
+
 
     return 0;
 }
