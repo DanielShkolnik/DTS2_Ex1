@@ -191,6 +191,11 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* leaf){
 
 }
 
+template <class K, class D>
+void Avl<K,D>::rotateLL(Node<K,D>* node){
+
+}
+
 
 template <class K, class D>
 void Avl<K,D>::removeFromParent(Node<K,D>* node){
