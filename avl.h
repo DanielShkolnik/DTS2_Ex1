@@ -300,9 +300,7 @@ template <class K, class D>
 Node<K,D>* Avl<K,D>::find(const K& key){
     if(this->root == nullptr) throw Avl<K,D>::KeyNotFound(); // avl is empty->
     Node<K,D>* currentNode = this->root;
-    Node<K,D>* prevNode = this->root;
     while (currentNode){
-        prevNode = currentNode;
         if(key > currentNode->getKey()){
             currentNode = currentNode->getRight();
         } else if(key == currentNode->getKey()){
