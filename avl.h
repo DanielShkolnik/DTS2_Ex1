@@ -150,33 +150,42 @@ void Avl<K,D>::insert(const K& key, D* data){
 }
 
 template <class K, class D>
-void fixBalanceFactor(Node<K,D>* leaf){
-    if(leaf->getParent() == nullptr) return;
-    Node<K,D> currentVertice = leaf;
-    while(currentVertice){
-        Node<K,D> currentVertice = leaf;
-        int leafBF = currentVertice->calcBalanceFactor();
-        Node<K,D> parentVertice = currentVertice.getParent();
-        int parentBF = parentVertice.calcBalanceFactor();
-        if(leafBF >=0 && parentBF < 2 && parentBF > -2){
+void Avl<K,D>::fixBalanceFactor(Node<K,D>* leaf){
+    Node<K,D>* childVertice = leaf;
+
+    if(childVertice->getParent() == nullptr) return;
+    Node<K,D> parentVertice = childVertice->getParent();
+    while(childVertice){
+
+        // Save old height and calc new height. If height hasn't changed - the tree is balanced
+        int currentHeight = childVertice->getHeight();
+        childVertice->calcHeight();
+        int childBF = childVertice->calcBalanceFactor();
+
+        // Calc balance factor of parent
+        parentVertice = childVertice->getParent();
+        int parentBF = parentVertice->calcBalanceFactor();
+
+        // If current vertice height hasn't changed due to rotations and parent BF is legal - tree is balanced
+        if(currentHeight == childVertice->getHeight() && parentBF < 2 && parentBF > -2){
             return;
         }
 
         //LL
-        if(BF == 2 && this->getBF(parentVertice->getLeft())>=0){
-            this->rotateLL(prev);
+        if(childBF == 2 && this->getBF(childVertice->getLeft())>=0){
+            this->rotateLL(childVertice);
         }
         //LR
-        else if(BF == 2 && this->getBF(parentVertice->getLeft())==-1){
-            this->rotateLR(prev);
+        else if(childBF == 2 && this->getBF(childVertice->getLeft())==-1){
+            this->rotateLR(childVertice);
         }
-            //RL
-        else if(BF==-2 && this->getBF(parentVertice->getRight())==1){
-            this->rotateRL(prev);
+        //RL
+        else if(childBF==-2 && this->getBF(childVertice->getRight())==1){
+            this->rotateRL(childVertice);
         }
-            //RR
-        else if(BF==-2 && this->getBF(parentVertice->getRight())<=0){
-            this->rotateRR(prev);
+        //RR
+        else if(childBF==-2 && this->getBF(childVertice->getRight())<=0){
+            this->rotateRR(childVertice);
         }
     }
 

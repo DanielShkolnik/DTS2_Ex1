@@ -17,7 +17,10 @@ private:
 
 public:
     Node()= delete;
-    Node(K key, D* data, Node* parent):key(key),data(data),parent(parent),height(1){};
+
+    // need to allocate space for data/paret/left/right?
+    Node(K key, D* data, Node* parent):key(key),data(data),parent(parent),left(nullptr),right(nullptr),height(1){};
+    // fix D'tor if needed
     ~Node() = default;
     Node(const Node&)= delete;
     Node operator=(const Node&)= delete;
