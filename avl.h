@@ -155,11 +155,10 @@ void Avl<K,D>::insert(const K& key, D* data){
 }
 
 template <class K, class D>
-void Avl<K,D>::fixBalanceFactor(Node<K,D>* leaf){
-    Node<K,D>* childVertice = leaf;
+void Avl<K,D>::fixBalanceFactor(Node<K,D>* childVertice){
 
     if(childVertice->getParent() == nullptr) return;
-    Node<K,D> parentVertice = childVertice->getParent();
+    Node<K,D>* parentVertice;
     while(childVertice){
 
         // Save old height and calc new height. If height hasn't changed - the tree is balanced
