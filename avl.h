@@ -20,7 +20,7 @@ private:
     void rotateRL(Node<K,D>* C);
     void rotateRR(Node<K,D>* B);
     int getBF(Node<K,D>* node);
-    Node<K,D> getNextAvailable(Node<K,D>& node);
+    Node<K,D>* getNextAvailable(Node<K,D>& node);
     void removeFromParent(Node<K,D>* node);
     bool isRightSon(Node<K,D>* node);
     bool isLeftSon(Node<K,D>* node);
@@ -113,7 +113,7 @@ void Avl<K,D>::deleteVertice(const K& key){
 
 // Gets the key and returns element with the nearest existing key
 template <class K, class D>
-Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
+Node<K,D>* Avl<K,D>::getNextAvailable(Node<K,D>& node){
     // Avl is empty
     if(this->root == nullptr) return nullptr;
 
