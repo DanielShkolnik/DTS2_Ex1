@@ -117,7 +117,7 @@ Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
     if(this->root == nullptr) return nullptr;
 
     // Create iterator
-    Node<K,D> iter = this->root;
+    Node<K,D>* iter = this->root;
 
     // Start recursive search on right sub-tree
     if(node->key = iter->key){
@@ -162,7 +162,6 @@ void Avl<K,D>::fixBalanceFactor(Node<K,D>* vertice){
     }
     if(vertice->getParent() == nullptr) return;
 
-    vertice = vertice->getParent();
     while(vertice){
 
         // save old height and calc new height. If height hasn't changed - the tree is balanced
