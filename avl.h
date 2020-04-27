@@ -46,7 +46,6 @@ public:
 template <class K, class D>
 void Avl<K,D>::deleteVertice(const K& key){
 
-    // left->right->right....
     Node<K,D>* vertice = nullptr;
     try{
         vertice = this->find(key);
@@ -54,7 +53,9 @@ void Avl<K,D>::deleteVertice(const K& key){
     catch(const Avl<K,D>::KeyNotFound&){
         throw Avl<K,D>::KeyNotFound();
     }
-    assert(vertice == nullptr);
+
+    assert(vertice== nullptr);
+
     // only one element
     if(vertice->isLeaf() && vertice->isRoot()){
         delete vertice;
@@ -64,10 +65,11 @@ void Avl<K,D>::deleteVertice(const K& key){
 
     //leaf and not root => parent exists
     else if(vertice->isLeaf()){
-        removeFromPaparent(vertice);
+        removeFromParent(vertice);
         this->fixBalanceFactor(vertice->getParent()); // fix balance from leaf parent
         this->updateRoot(vertice->getParent());
     }
+
     //no left son but not leaf => right son
     else if(vertice->getLeft()== nullptr){
         if(vertice->getParent() != nullptr) fixRelations(vertice->getParent(),vertice->getRight());
@@ -75,7 +77,8 @@ void Avl<K,D>::deleteVertice(const K& key){
         fixBalanceFactor(vertice->getRight());
         this->updateRoot(vertice->getRight());
     }
-        //find the left->right->right....son
+
+    //find the left->right->right...son
     else{
         Node<K,D>* current = vertice->getLeft();
         while (current->getRight()!= nullptr){
@@ -90,6 +93,7 @@ void Avl<K,D>::deleteVertice(const K& key){
             this->fixBalanceFactor(current);
             this->updateRoot(current);
         }
+
         else{
             Node<K,D>* changedFrom = current->getParent(); // save parent of leaf to fix balance from
             if(current->getLeft() != nullptr) fixRelations(current->getParent(),current->getLeft());
@@ -122,7 +126,7 @@ Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
 
         // I'm the nearest to myself
         if(node->key == iter->key){
-            return iter;
+           throw Avl<K,D>::KeyExists();
         }
 
         else if(node->getKey() > iter->getKey()){
@@ -140,10 +144,16 @@ Node<K,D> Avl<K,D>::getNextAvailable(Node<K,D>& node){
 
 template <class K, class D>
 void Avl<K,D>::insert(const K& key, D* data){
-    Node<K,D>* nearest = this->getNextAvailable(key);
-    if(nearest != nullptr){
-        if (nearest->getKey()==key) throw Avl<K,D>::KeyExists();
+
+    Node<K,D>* nearest;
+
+    // find suitable place for insertion
+    try {
+        nearest = this->getNextAvailable(key);
+    } catch(const Avl<K,D>::KeyExists&) {
+        throw Avl<K, D>::KeyExists();
     }
+
     Node<K,D>* newNode = new Node<K,D>(key,data,nearest);
     if(nearest == nullptr){
         this->root = newNode;
