@@ -138,7 +138,7 @@ void Avl<K,D>::insert(const K& key, D* data){
     if(nearest != nullptr){
         if (nearest->getKey()==key) throw Avl<K,D>::KeyExists();
     }
-    Node<K,D> newNode = <Node<K,D>>(new Node<K,D>(key,data,nearest));
+    Node<K,D> newNode = new Node<K,D>(key,data,nearest);
     if(nearest == nullptr){
         this->root = newNode;
         return;
