@@ -45,19 +45,19 @@ public:
     return this->parent;
     }
     void setParent(Node<K,D>* node){
-        this->parent=node->parent;
+        this->parent=node;
     }
     Node<K,D>* getLeft(){
         return this->left;
     }
     void setLeft(Node<K,D>* node){
-        this->left=node->left;
+        this->left=node;
     }
     Node<K,D>* getRight(){
         return this->right;
     }
     void setRight(Node<K,D>* node){
-        this->right=node->right;
+        this->right=node;
     }
     int getHeight() const{
         return this->height;

@@ -400,5 +400,4 @@ Avl<K,D>::~Avl(){
 }
 
 
-
 #endif //DTS2_EX1_AVL_H

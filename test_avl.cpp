@@ -17,9 +17,8 @@ void print(Node<int,int>* node){
 int main(int argc, const char**argv) {
     //Test1
     Avl<int,int> avl;
-    int a=1;
+    int a=1,c=5,d=4;
     int* b=&a;
-            //,*b,*c,*d,*e,*f,*g,*h,*i,*j,*k;
     //*a=1; *b=5; *c=3; *d=2; *e=10; *f=15; *g=20; *h=7; *i=9; *j=4; *k=11;
 
     //avl.insert(*a,a);
@@ -35,7 +34,8 @@ int main(int argc, const char**argv) {
     avl.insert(*j,j);
     avl.insert(*k,k);
 */
-    inorder<int,int,void (Node<int,int>* node)>(avl.getRoot(),print);
+    Node<int,int>* root = avl.getRoot();
+    inorder<int,int,void (Node<int,int>* node)>(root,print);
 
 
     return 0;
