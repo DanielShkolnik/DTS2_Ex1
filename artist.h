@@ -13,30 +13,44 @@ class Artist{
 private:
     int artistID;
     int numOfSongs;
-    Song** songArray;
+    Node<int,Song>** songArray;
 public:
     Artist(int artistID,int numOfSongs,Song** songs){
         if(artistID<=0 || numOfSongs<=0){
             throw INVALID_INPUT();
         }
+        Node<int,Song>* songArray = new Node<int,Song>[numOfSongs]();
         for (int i = 0; i < numOfSongs; ++i) {
-            Node<int,Song>* song = new Node<int,Song>();
-            songArray[i] = song;
+            Song* songArray[i] = new Song(i, this->artistID);
+            /*Node<int, Song>* song = new Node<int,Song>(i, new Song(i, this->artistID));
+            if(song == nullptr) { throw ALLOCATION_ERROR(); }
+            operator()(,song);*/
         }
 
     };
-    ~Artist();
+    ~Artist(){
+        for (int i = 0; i < numOfSongs; ++i) {
+            delete this->songArray[i];
+        }
+        delete[] songArray;
+    };
     Artist(const Artist& avl)= delete;
     Artist& operator=(const Artist& avl)= delete;
-
+    void addCount(int songID){
+        songArray[songID]->getData()->increasePopularity();
+    }
+    int getArtistID(){
+        return this->artistID;
+    }
+    void operator()(Node<int,Song>* songArray, Node<int,Song> songPtr);
     class INVALID_INPUT{};
     class ALLOCATION_ERROR{};
     class FAILURE{};
     class SUCCESS{};
-
-    /*void insert(const K& key, D* data);
-    void deleteVertice(const K& key);
-    Node<K,D>* find(const K& key);*/
 };
+
+void Artist::operator()(Node<int,Song>* songArray, Node<int,Song> songPtr){
+
+}
 
 #endif //DTS2_EX1_ARTIST_H

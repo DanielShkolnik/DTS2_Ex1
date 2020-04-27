@@ -24,16 +24,35 @@ private:
     int height;
 
 public:
-    Node()= delete;
-
-    // need to allocate space for data/paret/left/right?
+    //Node()= delete;
+    Node():key(0),data(nullptr),parent(nullptr),left(nullptr),right(nullptr),height(1){};
     Node(K key, D* data, Node* parent):key(key),data(data),parent(parent),left(nullptr),right(nullptr),height(1){};
-    // fix D'tor if needed
     ~Node() = default;
-    Node(const Node&)= delete;
-    Node operator=(const Node&)= delete;
+    //Node(const Node&)= delete;
+
+    Node(const Node& node){
+        this->setKey() = node.getKey();
+        this->setData() = node.getData();
+        this->setParent() = node.getParent();
+        this->setParent() = node.getParent();
+        this->setParent() = node.getParent();
+        this->setHeight() = node.height();
+    }
+    //Node operator=(const Node&)= delete;
+    Node& operator=(const Node& node){
+        this->setKey() = node.getKey();
+        this->setData() = node.getData();
+        this->setParent() = node.getParent();
+        this->setParent() = node.getParent();
+        this->setParent() = node.getParent();
+        this->setHeight() = node.height();
+        return *this;
+    };
     const K& getKey(){
         return this->key;
+    }
+    void setKey(K key){
+        this->key = key;
     }
     D* getData(){
         return this->data;
@@ -61,6 +80,9 @@ public:
     }
     int getHeight() const{
         return this->height;
+    }
+    void setHeight(int height){
+        this->height = height;
     }
     bool isLeaf(){
         return  (this->right == nullptr && this->left == nullptr);
