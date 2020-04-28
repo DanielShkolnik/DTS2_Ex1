@@ -47,12 +47,21 @@ public:
         if(artistID<=0) return INVALID_INPUT;
         try{
             Artist* artist= this->artistTree.find(artistID)->getData();
-            this->artistTree.deleteVertice(artistID);
-            Node<int,Avl<int,Disc>> current = this->bestHitsListStart;
+            Node<int,Avl<int,Disc>>* current = this->bestHitsListStart;
             while(current!= nullptr){
-
+                try{
+                    current->getData()->deleteVertice(artistID);
+                }
+                catch(Avl<int,Disc>::KeyNotFound& e){
+                    continue;
+                }
+                if(current->getData()->isEmpty()){
+                    if(current->getPrev()!= nullptr) current->getPrev()->setNext(current->getNext());
+                    if(current->getNext()!= nullptr) current->getNext()->setPrev(current->getPrev());
+                }
             }
-
+            this->artistTree.deleteVertice(artistID);
+            return SUCCESS;
         }
         catch(std::bad_alloc& e) {
             return ALLOCATION_ERROR;
@@ -63,7 +72,18 @@ public:
     }
 
     StatusType AddToSongCount(int artistID, int songID){
-
+        if(artistID<=0 || songID<=0) return INVALID_INPUT;
+        try{
+            Artist* artist=this->artistTree.find(artistID)->getData();
+            if(songID>=artist->getNumOfSongs()) return INVALID_INPUT;
+            artist->addCount(songID);
+        }
+        catch(std::bad_alloc& e) {
+            return ALLOCATION_ERROR;
+        }
+        catch(Avl<int,Artist>::KeyNotFound& e){
+            return FAILURE;
+        }
     }
 
     StatusType NumberOfStreams(int artistID, int songID, int *streams){

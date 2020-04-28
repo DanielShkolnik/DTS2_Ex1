@@ -43,6 +43,9 @@ public:
         return this->songArray[index];
     }
 
+    int getNumOfSongs(){
+        return this->numOfSongs;
+    }
 
     class INVALID_INPUT{};
     class ALLOCATION_ERROR{};
