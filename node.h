@@ -30,24 +30,9 @@ public:
     ~Node() = default;
     //Node(const Node&)= delete;
 
-    Node(const Node& node){
-        this->setKey() = node.getKey();
-        this->setData() = node.getData();
-        this->setParent() = node.getParent();
-        this->setParent() = node.getParent();
-        this->setParent() = node.getParent();
-        this->setHeight() = node.height();
-    }
+    Node(const Node& node) = delete;
     //Node operator=(const Node&)= delete;
-    Node& operator=(const Node& node){
-        this->setKey() = node.getKey();
-        this->setData() = node.getData();
-        this->setParent() = node.getParent();
-        this->setParent() = node.getParent();
-        this->setParent() = node.getParent();
-        this->setHeight() = node.height();
-        return *this;
-    };
+    Node& operator=(const Node& node) = delete;
     const K& getKey(){
         return this->key;
     }
