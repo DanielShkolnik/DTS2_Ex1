@@ -60,7 +60,7 @@ public:
             this->bestHitsListStart->getData()->insert(artistID,disc);
 
             // update ptr to rank
-            disc->updateRank(this->bestHitsListStart);
+            disc->setRankPtr(this->bestHitsListStart);
         } catch (const Artist::ALLOCATION_ERROR&) {
             throw static_cast<StatusType>(-2);
         } catch (const Artist::INVALID_INPUT&) {
