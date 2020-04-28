@@ -11,6 +11,7 @@
 class Disc{
 private:
     int artistID;
+    int numOfSongs;
     Node<int,Avl<int,Disc>>* rankPtr;
     Avl<int,Song>* songTree;
 
@@ -39,6 +40,7 @@ public:
 
     void addSong(Song* song){
         this->songTree->insert(song->getSongID(),song);
+        this->numOfSongs++;
     }
 
     void removeSong(int songID){
@@ -49,6 +51,8 @@ public:
     void updateRank(Node<int,Avl<int,Disc>>* rankPtr){
         this->rankPtr = rankPtr;
     }
+
+
 
 };
 

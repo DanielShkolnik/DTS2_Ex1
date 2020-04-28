@@ -139,17 +139,42 @@ public:
     StatusType NumberOfStreams(int artistID, int songID, int *streams){
         try {
             *streams = this->artistTree.find(artistID)->getData()->getSongNode(songID)->getData()->getPopularity();
-        } catch (const Artist::) {
-
+        } catch (const Artist::ALLOCATION_ERROR&) {
+            throw static_cast<StatusType>(-2);
+        } catch (const Artist::INVALID_INPUT&) {
+            throw static_cast<StatusType>(-3);
+        }  catch(const Avl<int,Artist>::KeyExists&) {
+            throw static_cast<StatusType>(-1);
         }
+    }
+
+    void discInorder(Node<int,Disc>* disc,int* artists, int artistIndex, int* songs){
+
+            // add to artists array
+            *(artists+artistIndex) = disc->getData()->getArtistID();
+
+            // for each node in tree do inorder traverse on song tree + add to song array
 
     }
 
     StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs){
 
+        int i = 0, counter = 0;
+        // set iterator to end of list & init counter
+        Node<int,Avl<int,Disc>>* iter = this->bestHitsListFinish;
+
+        // loop over node of list
+        for (iter; iter != nullptr && counter>=0; iter = iter->getNext(), i++, counter--){
+            // for each node do inorder traverse on disc tree
+            Node<int,Disc>* discIter = iter->getData()->getRoot();
+
+            inorder<int,Avl<int,Disc>,void(Avl<int,Disc>*,int*,int*)>(discRoot->getRoot(),discInorder(discRoot,artists,songs));
+
+        }
+
+
+        // finish when counter equal to zero
     }
-
-
 
 };
 
