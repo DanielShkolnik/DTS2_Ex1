@@ -30,8 +30,8 @@ public:
         }
         delete[] songArray;
     };
-    Artist(const Artist& avl)= delete;
-    Artist& operator=(const Artist& avl)= delete;
+    Artist(const Artist& artist)= delete;
+    Artist& operator=(const Artist& artist)= delete;
     void addCount(int songID){
         songArray[songID]->getData()->increasePopularity();
     }
