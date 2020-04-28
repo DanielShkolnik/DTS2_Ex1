@@ -39,6 +39,11 @@ public:
         return this->artistID;
     }
 
+    Node<int,Song>* getSongNode(int index){
+        return this->songArray[index];
+    }
+
+
     class INVALID_INPUT{};
     class ALLOCATION_ERROR{};
     class FAILURE{};
