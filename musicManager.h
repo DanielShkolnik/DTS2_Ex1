@@ -104,6 +104,7 @@ public:
             Artist* artist=this->artistTree.find(artistID)->getData();
             if(songID>=artist->getNumOfSongs()) return INVALID_INPUT;
             artist->addCount(songID);
+            artist->getSongNode(songID)->getData()->get
         }
         catch(std::bad_alloc& e) {
             return ALLOCATION_ERROR;
