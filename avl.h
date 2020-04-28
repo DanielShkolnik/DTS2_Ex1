@@ -363,7 +363,7 @@ void Avl<K,D>::rotateRL(Node<K,D>* C){
 }
 
 template <class K, class D, class P>
-void inorder(Node<K,D>* node, P predicate){
+void inorder(Node<K,D>* node, P& predicate){
     if (node== nullptr) return;
     inorder(node->getLeft(),predicate);
     predicate(node);
@@ -371,7 +371,7 @@ void inorder(Node<K,D>* node, P predicate){
 }
 
 template <class K, class D, class P>
-void preorder(Node<K,D>* node, P predicate){
+void preorder(Node<K,D>* node, P& predicate){
     if (node== nullptr) return;
     predicate(node);
     preorder(node->getLeft(),predicate);
@@ -379,7 +379,7 @@ void preorder(Node<K,D>* node, P predicate){
 }
 
 template <class K, class D, class P>
-void postorder(Node<K,D>* node, P predicate){
+void postorder(Node<K,D>* node, P& predicate){
     if (node== nullptr) return;
     postorder(node->getLeft(),predicate);
     postorder(node->getRight(),predicate);
