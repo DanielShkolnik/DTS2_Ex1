@@ -14,7 +14,7 @@ private:
     int popularity;
     Disc* disc;
 public:
-    Song(int songID, int artistID):songID(songID),artistID(artistID),popularity(0){};
+    Song(int songID, int artistID):songID(songID),artistID(artistID),popularity(0),disc(nullptr){};
     ~Song() = default;
     Song(const Song& song) = delete;
     Song& operator=(const Song& song) = delete;
