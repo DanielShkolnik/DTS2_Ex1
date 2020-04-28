@@ -5,4 +5,43 @@
 #ifndef DTS2_EX1_DISC_H
 #define DTS2_EX1_DISC_H
 
+#include "avl.h"
+#include "song.h"
+
+class Disc{
+private:
+    int artistID;
+    Node<int,Avl<int,Disc>>* rankPtr;
+    Avl<int,Song>* songTree;
+
+public:
+    Disc(int artistID, Node<int,Avl<int,Disc>>* rankPtr):artistID(artistID),rankPtr(rankPtr){
+        this->songTree = new Avl<int,Song>();
+    };
+    ~Disc(){
+        delete this->songTree;
+    }
+    Disc(const Disc& disc) = delete;
+    Disc& operator=(const Disc& disc) = delete;
+
+    Avl<int,Song>* getSongTree(){
+        return this->songTree;
+    }
+
+    int getArtistID(){
+        return this->artistID;
+    }
+
+    Node<int,Avl<int,Disc>>* getRankPtr(){
+        return this->rankPtr;
+    }
+
+    void addSong(Song* song){
+        this->songTree->insert(song->getSongID(),song);
+    }
+
+};
+
+
+
 #endif //DTS2_EX1_DISC_H
