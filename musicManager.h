@@ -232,7 +232,7 @@ public:
             Node<int, Avl<int, Disc>> *iter = this->bestHitsListFinish;
 
             // loop over nodes of list
-            for (iter; iter != nullptr && *counter > 0; iter = iter->getNext()) {
+            for (; iter != nullptr && *counter > 0; iter = iter->getNext()) {
 
                 // for each node do inorder traverse on disc tree
 
