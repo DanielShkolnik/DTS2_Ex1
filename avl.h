@@ -34,14 +34,15 @@ public:
     void insert(const K& key, D* data);
     void deleteVertice(const K& key);
     Node<K,D>* find(const K& key);
-
+    Node<K,D>* getRoot(){
+        return this->root;
+    }
+    bool isEmpty();
     class Error{};
     class KeyExists{};
     class KeyNotFound{};
 
-    Node<K,D>* getRoot(){
-        return this->root;
-    }
+
 };
 
 
@@ -398,6 +399,11 @@ void destroy(Node<K,D>* node){
 template <class K, class D>
 Avl<K,D>::~Avl(){
     postorder<K,D,void (Node<K,D>* node)>(this->root,destroy);
+}
+
+template <class K, class D>
+bool Avl<K,D>::isEmpty(){
+    return this->root == nullptr;
 }
 
 
