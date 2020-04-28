@@ -168,6 +168,78 @@ public:
         }
     }
 
+    class songPredicate{
+    private:
+        int* songs;
+        int* songsIndex;
+        int* counter;
+    public:
+        void operator()(Node<int,Song>* songNode){
+            if(*counter == 0){
+                return;
+            }
+
+            // add to songs list
+            *(songs+*songsIndex) = songNode->getData()->getSongID();
+
+            // update index
+            *songsIndex++;
+            *counter--;
+        }
+        explicit songPredicate(Node<int,Song>* songNode, int* songs, int* songsIndex,int* counter):songs(songs), songsIndex(songsIndex),counter(counter){};
+        songPredicate(const songPredicate& a) = delete;
+    };
+
+    class discPredicate{
+    private:
+        int* artists;
+        int* counter;
+        int* artistIndex;
+        int* songIndex;
+        int* songs;
+    public:
+        void operator()(Node<int,Disc>* disc){
+            // add to artists array
+            *(artists+*artistIndex) = disc->getData()->getArtistID();
+
+            // for each node in tree do inorder traverse on song tree + add to song array
+            // get songTree root
+            Node<int,Song>* song = (Node<int,Song>*)(disc->getData()->getSongTree()->getRoot());
+
+            songPredicate songPred(song,songs,songIndex,counter);
+
+            // init indices
+            int i = 0; int* songIndex = &i;
+            inorder<int,Node<int,Song>*,songPredicate>(song, songPred);
+
+            // update indices
+            *artists++;
+        }
+        explicit discPredicate(Node<int,Disc>*, int* artists,int* counter,int* artistIndex,int* songIndex,int* songs):artists(artists),counter(counter),artistIndex(artistIndex),songs(songs),songIndex(songIndex){};
+        discPredicate(const discPredicate& a) = delete;
+    };
+
+    StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs){
+
+        int i = 0; int* counter = &numOfSongs; int* artistIndex = &i; int* songIndex = &i;
+        // set iterator to end of list & init counter
+        Node<int,Avl<int,Disc>>* iter = this->bestHitsListFinish;
+
+        // loop over node of list
+        for (iter; iter != nullptr && *counter > 0; iter = iter->getNext()){
+
+            // for each node do inorder traverse on disc tree
+            Node<int,Disc>* discIter = iter->getData()->getRoot();
+
+            discPredicate discPred(discIter,artists,counter,artistIndex,songIndex,songs);
+
+            inorder<int,Node<int,Disc>*,discPredicate>(discIter,discPred);
+
+        }
+
+
+        // finish when counter equal to zero
+    }
 
 };
 
