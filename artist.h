@@ -15,12 +15,12 @@ private:
     int numOfSongs;
     Node<int,Song>** songArray;
 public:
-    Artist(int artistID,int numOfSongs,Song** songs){
-        if(artistID<=0 || numOfSongs<=0){
+    Artist(int artistID,int numOfSongs):artistID(artistID),numOfSongs(numOfSongs){
+        if(this->artistID<=0 || this->numOfSongs<=0){
             throw INVALID_INPUT();
         }
-        Node<int,Song>** songArray = new Node<int,Song>*[numOfSongs]();
-        for (int i = 0; i < numOfSongs; ++i) {
+        this->songArray = new Node<int,Song>*[numOfSongs]();
+        for (int i = 0; i < this->numOfSongs; ++i) {
             songArray[i] = new Node<int,Song>(i, new Song(i, this->artistID));
         }
     };
