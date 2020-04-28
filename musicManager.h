@@ -117,7 +117,9 @@ public:
 
     StatusType NumberOfStreams(int artistID, int songID, int *streams){
         try {
-            this->artistTree.find(artistID)->;
+            *streams = this->artistTree.find(artistID)->getData()->getSongNode(songID)->getData()->getPopularity();
+        } catch (const Artist::) {
+
         }
 
     }

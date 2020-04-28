@@ -36,5 +36,9 @@ public:
         return this->disc;
     }
 
+    int getPopularity(){
+        return this->popularity;
+    }
+
 };
 #endif //DTS2_EX1_SONG_H
