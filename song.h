@@ -13,8 +13,8 @@ private:
 public:
     Song(int songID, int artistID):songID(songID),artistID(artistID),popularity(0){};
     ~Song() = default;
-    Song(const Song& avl) = delete;
-    Song& operator=(const Song& avl) = delete;
+    Song(const Song& song) = delete;
+    Song& operator=(const Song& song) = delete;
     int getSongID(){
         return this->songID;
     }
