@@ -177,6 +177,8 @@ public:
         int* counter;
     public:
         void operator()(Node<int,Song>* songNode){
+
+            // finish when counter equal to zero
             if(*counter > 0) {
 
                 // add to artists array
@@ -222,29 +224,34 @@ public:
     };
 
     StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs){
+        try {
+            int i = 0;
+            int *counter = &numOfSongs;
+            int *index = &i;
+            // set iterator to end of list & init counter
+            Node<int, Avl<int, Disc>> *iter = this->bestHitsListFinish;
 
-        int i = 0; int* counter = &numOfSongs; int* index = &i;
-        // set iterator to end of list & init counter
-        Node<int,Avl<int,Disc>>* iter = this->bestHitsListFinish;
+            // loop over nodes of list
+            for (iter; iter != nullptr && *counter > 0; iter = iter->getNext()) {
 
-        // loop over nodes of list
-        for (iter; iter != nullptr && *counter > 0; iter = iter->getNext()){
+                // for each node do inorder traverse on disc tree
 
-            // for each node do inorder traverse on disc tree
+                // get disc root
+                Node<int, Disc> *discIter = iter->getData()->getRoot();
 
-            // get disc root
-            Node<int,Disc>* discIter = iter->getData()->getRoot();
+                // create inst of predicate for disc
+                DiscPredicate discPred(artists, counter, index, songs);
 
-            // create inst of predicate for disc
-            DiscPredicate discPred(artists,counter,index,songs);
-
-            // traverse tree for current rank
-            inorder<int,Disc,DiscPredicate>(discIter,discPred);
-
+                // traverse tree for current rank
+                inorder<int, Disc, DiscPredicate>(discIter, discPred);
+            }
+        } catch (const Artist::ALLOCATION_ERROR&) {
+            throw static_cast<StatusType>(-2);
+        } catch (const Artist::INVALID_INPUT&) {
+            throw static_cast<StatusType>(-3);
+        }  catch(const Avl<int,Artist>::KeyExists&) {
+            throw static_cast<StatusType>(-1);
         }
-
-
-        // finish when counter equal to zero
     }
 
 };
