@@ -19,14 +19,10 @@ public:
         if(artistID<=0 || numOfSongs<=0){
             throw INVALID_INPUT();
         }
-        Node<int,Song>* songArray = new Node<int,Song>[numOfSongs]();
+        Node<int,Song>** songArray = new Node<int,Song>*[numOfSongs]();
         for (int i = 0; i < numOfSongs; ++i) {
-            Song* songArray[i] = new Song(i, this->artistID);
-            /*Node<int, Song>* song = new Node<int,Song>(i, new Song(i, this->artistID));
-            if(song == nullptr) { throw ALLOCATION_ERROR(); }
-            operator()(,song);*/
+            songArray[i] = new Node<int,Song>(i, new Song(i, this->artistID));
         }
-
     };
     ~Artist(){
         for (int i = 0; i < numOfSongs; ++i) {
@@ -49,8 +45,5 @@ public:
     class SUCCESS{};
 };
 
-void Artist::operator()(Node<int,Song>* songArray, Node<int,Song> songPtr){
-
-}
 
 #endif //DTS2_EX1_ARTIST_H
