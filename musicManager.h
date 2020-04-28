@@ -112,21 +112,41 @@ public:
 
             if(discOld->getSongTree()->isEmpty()) rankNodeOld->getData()->deleteVertice(artistID);
 
-            if(rankNodeOld->getData()->isEmpty()){
-                //check bestHitsListStart
-                rankNodeOld->removeNode();
-            }
-
             artist->addCount(songID);
 
             int popularity = song->getPopularity();
 
-            if(rankNodeOld->getNext()!= nullptr && rankNode->getNext()->getKey()==popularity){
+            if(rankNodeOld->getNext()!= nullptr && rankNodeOld->getNext()->getKey()==popularity){
                 try{
-                    rankNode->getNext()->getData()->find(artistID)->getData()->addSong();
+                    rankNodeOld->getNext()->getData()->find(artistID)->getData()->addSong((long*)song);
+                }
+                catch(Avl<int,Disc>::KeyNotFound& e){
+                    Disc* discNew = new Disc(artistID);
+                    rankNodeOld->getNext()->getData()->insert(artistID,discNew);
+                    discNew->setRankPtr(rankNodeOld->getNext());
+                    discNew->addSong((long*)song);
                 }
             }
-            artist->getSongNode(songID)->getData()->getDisc()->getRankPtr()->getNext()->getKey();
+            else{
+                Node<int,Avl<int,Disc>>* rankNodeNew = new Node<int,Avl<int,Disc>>(popularity, new Avl<int,Disc>);
+                rankNodeNew->setPrev(rankNodeOld);
+                rankNodeNew->setNext(rankNodeOld->getNext());
+                rankNodeOld->setNext(rankNodeNew);
+                Disc* discNew = new Disc(artistID);
+                rankNodeNew->getData()->insert(artistID,discNew);
+                discNew->setRankPtr(rankNodeNew);
+                discNew->addSong((long*)song);
+            }
+
+            if(rankNodeOld->getData()->isEmpty()){
+                if(this->bestHitsListStart->getKey() == rankNodeOld->getKey()){
+                    this->bestHitsListStart = rankNodeOld->getNext();
+                }
+                rankNodeOld->removeNode();
+            }
+
+            if(this->bestHitsListFinish->getNext()!= nullptr) this->bestHitsListFinish=this->bestHitsListFinish->getNext();
+
         }
         catch(std::bad_alloc& e) {
             return ALLOCATION_ERROR;

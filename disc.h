@@ -45,8 +45,7 @@ public:
         this->songTree->deleteVertice(songID);
     }
 
-
-    void updateRank(Node<int,Avl<int,Disc>>* rankPtr){
+    void setRankPtr(Node<int,Avl<int,Disc>>* rankPtr){
         this->rankPtr = rankPtr;
     }
 
