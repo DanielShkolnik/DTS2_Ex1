@@ -41,6 +41,11 @@ public:
         this->songTree->insert(song->getSongID(),song);
     }
 
+    void removeSong(int songID){
+        this->songTree->deleteVertice(songID);
+    }
+
+
     void updateRank(Node<int,Avl<int,Disc>>* rankPtr){
         this->rankPtr = rankPtr;
     }

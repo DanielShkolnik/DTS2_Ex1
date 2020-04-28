@@ -52,7 +52,7 @@ public:
 
             // update artists song
             for(int i=0;i<artist->getNumOfSongs();i++){
-                disc->addSong((long*)(artist->getSongNode(i)->getData()));
+                disc->addSong((long*)(artist->getSongNode(i)->getData())); //Need to fix
                 artist->getSongNode(i)->getData()->setDisc(disc);
             }
 
@@ -103,9 +103,30 @@ public:
         if(artistID<=0 || songID<=0) return INVALID_INPUT;
         try{
             Artist* artist=this->artistTree.find(artistID)->getData();
-            if(songID>=artist->getNumOfSongs()) return INVALID_INPUT;
+            if(songID >= artist->getNumOfSongs()) return INVALID_INPUT;
+            Song* song = artist->getSongNode(songID)->getData();
+            Disc* discOld = song->getDisc();
+            Node<int,Avl<int,Disc>>* rankNodeOld = discOld->getRankPtr();
+
+            discOld->removeSong(songID);
+
+            if(discOld->getSongTree()->isEmpty()) rankNodeOld->getData()->deleteVertice(artistID);
+
+            if(rankNodeOld->getData()->isEmpty()){
+                //check bestHitsListStart
+                rankNodeOld->removeNode();
+            }
+
             artist->addCount(songID);
-            artist->getSongNode(songID)->getData()->get
+
+            int popularity = song->getPopularity();
+
+            if(rankNodeOld->getNext()!= nullptr && rankNode->getNext()->getKey()==popularity){
+                try{
+                    rankNode->getNext()->getData()->find(artistID)->getData()->addSong();
+                }
+            }
+            artist->getSongNode(songID)->getData()->getDisc()->getRankPtr()->getNext()->getKey();
         }
         catch(std::bad_alloc& e) {
             return ALLOCATION_ERROR;

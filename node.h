@@ -95,6 +95,20 @@ public:
         return this->right;
     }
 
+    void removeNode(){
+        if(this->getNext() == nullptr && this->getPrev() == nullptr){}
+        else if(this->getPrev() == nullptr){
+            this->getNext()->setPrev(nullptr);
+        }
+        else if ((this->getNext() == nullptr)){
+            this->getPrev()->setNext(nullptr);
+        }
+        else{
+            this->getPrev()->setNext(this->getNext());
+            this->getNext()->setPrev(this->getPrev());
+        }
+        delete this;
+    }
 };
 
 
