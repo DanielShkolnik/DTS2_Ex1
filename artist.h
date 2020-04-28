@@ -38,7 +38,7 @@ public:
     int getArtistID(){
         return this->artistID;
     }
-    void operator()(Node<int,Song>* songArray, Node<int,Song> songPtr);
+
     class INVALID_INPUT{};
     class ALLOCATION_ERROR{};
     class FAILURE{};
