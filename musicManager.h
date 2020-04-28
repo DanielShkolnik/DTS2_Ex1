@@ -53,9 +53,10 @@ public:
             // update artists song
             for(int i=0;i<artist->getNumOfSongs();i++){
                 disc->addSong(artist->getSongNode(i)->getData());
+                artist->getSongNode(i)->getData()->setDisc(disc);
             }
 
-            //
+            // insert disc into disc tree at rank 0 in bestHitsList
             this->bestHitsListStart->getData()->insert(artistID,disc);
 
             // update ptr to rank
@@ -115,6 +116,9 @@ public:
     }
 
     StatusType NumberOfStreams(int artistID, int songID, int *streams){
+        try {
+            this->artistTree.find(artistID)->;
+        }
 
     }
 
