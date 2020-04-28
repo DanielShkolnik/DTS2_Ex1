@@ -14,7 +14,6 @@
 #include "exception"
 
 
-
 class MusicManager{
 private:
 Avl<int,Artist> artistTree;
@@ -23,7 +22,7 @@ Node<int,Avl<int,Disc>>* bestHitsListFinish;
 
 public:
     MusicManager(){
-        this->bestHitsListStart = new Node<int,Avl<int,Disc>>;
+        this->bestHitsListStart = new Node<int,Avl<int,Disc>>(0, new Avl<int,Disc>);
         this->bestHitsListFinish = this->bestHitsListStart;
     }
     ~MusicManager(){
@@ -41,6 +40,34 @@ public:
 
     StatusType AddArtist(int artistID, int numOfSongs){
 
+        try {
+            // create artist node
+            Artist* artist = new Artist(artistID,numOfSongs);
+
+            // insert into tree
+            this->artistTree.insert(artistID, artist);
+
+            // create new disc
+            Disc* disc = new Disc(artistID);
+
+            // update artists song
+            for(int i=0;i<artist->getNumOfSongs();i++){
+                disc->addSong(artist->getSongNode(i)->getData());
+            }
+
+            //
+            this->bestHitsListStart->getData()->insert(artistID,disc);
+
+            // update ptr to rank
+            disc->updateRank(this->bestHitsListStart);
+        } catch (const Artist::ALLOCATION_ERROR&) {
+            throw static_cast<StatusType>(-2);
+        } catch (const Artist::INVALID_INPUT&) {
+            throw static_cast<StatusType>(-3);
+        }  catch(const Avl<int,Artist>::KeyExists&) {
+            throw static_cast<StatusType>(-1);
+        }
+        return static_cast<StatusType>(0);
     }
 
     StatusType RemoveArtist(int artistID){

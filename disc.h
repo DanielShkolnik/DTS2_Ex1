@@ -15,7 +15,8 @@ private:
     Avl<int,Song>* songTree;
 
 public:
-    Disc(int artistID, Node<int,Avl<int,Disc>>* rankPtr):artistID(artistID),rankPtr(rankPtr){
+    Disc() = delete;
+    Disc(int artistID):artistID(artistID),rankPtr(nullptr){
         this->songTree = new Avl<int,Song>();
     };
     ~Disc(){
@@ -38,6 +39,10 @@ public:
 
     void addSong(Song* song){
         this->songTree->insert(song->getSongID(),song);
+    }
+
+    void updateRank(Node<int,Avl<int,Disc>>* rankPtr){
+        this->rankPtr = rankPtr;
     }
 
 };

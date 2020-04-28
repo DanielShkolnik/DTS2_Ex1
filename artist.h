@@ -20,8 +20,10 @@ public:
             throw INVALID_INPUT();
         }
         this->songArray = new Node<int,Song>*[numOfSongs]();
+        if(songArray == nullptr){ throw ALLOCATION_ERROR();}
         for (int i = 0; i < this->numOfSongs; ++i) {
             songArray[i] = new Node<int,Song>(i, new Song(i, this->artistID));
+            if(songArray[i] == nullptr){ throw ALLOCATION_ERROR();}
         }
     };
     ~Artist(){

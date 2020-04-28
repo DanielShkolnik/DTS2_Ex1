@@ -24,14 +24,10 @@ private:
     int height;
 
 public:
-    //Node()= delete;
-    Node():key(0),data(nullptr),parent(nullptr),left(nullptr),right(nullptr),height(1){};
+    Node()= delete;
     Node(K key, D* data, Node* parent):key(key),data(data),parent(parent),left(nullptr),right(nullptr),height(1){};
     ~Node() = default;
-    //Node(const Node&)= delete;
-
     Node(const Node& node) = delete;
-    //Node operator=(const Node&)= delete;
     Node& operator=(const Node& node) = delete;
     const K& getKey(){
         return this->key;
