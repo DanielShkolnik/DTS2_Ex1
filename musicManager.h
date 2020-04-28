@@ -52,7 +52,7 @@ public:
 
             // update artists song
             for(int i=0;i<artist->getNumOfSongs();i++){
-                disc->addSong(artist->getSongNode(i)->getData());
+                disc->addSong((long*)(artist->getSongNode(i)->getData()));
                 artist->getSongNode(i)->getData()->setDisc(disc);
             }
 
