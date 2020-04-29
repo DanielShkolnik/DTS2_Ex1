@@ -14,9 +14,6 @@
 #include "exception"
 #include <iostream>
 
-using std::bad_alloc;
-
-
 class MusicManager{
 private:
 Avl<int,Artist> artistTree;
