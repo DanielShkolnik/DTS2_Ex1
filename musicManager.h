@@ -33,8 +33,8 @@ public:
             // delete disc
             delete discNode->getData();
         }
-        explicit DiscPredicate(){};
-        DiscPredicate(const DiscPredicate& a) = delete;
+        explicit DiscPredicateDelete(){};
+        DiscPredicateDelete(const DiscPredicateDelete& a) = delete;
     };
 
     ~MusicManager(){
@@ -44,7 +44,8 @@ public:
             current= current->getNext();
             // do inorder to free data in each node
             DiscPredicateDelete discDelete();
-            postorder<int,Avl<int,Disc>,DiscPredicateDelete>(prev->getData(),discDelete());
+
+            postorder<int,Avl<int,Disc>,DiscPredicateDelete>(prev,discDelete);
             delete prev->getData();
             delete prev;
             prev = current;
@@ -140,13 +141,13 @@ public:
 
             if(rankNodeOld->getNext()!= nullptr && rankNodeOld->getNext()->getKey()==popularity){
                 try{
-                    rankNodeOld->getNext()->getData()->find(artistID)->getData()->addSong((long*)song);
+                    rankNodeOld->getNext()->getData()->find(artistID)->getData()->addSong(song);
                 }
                 catch(Avl<int,Disc>::KeyNotFound& e){
                     Disc* discNew = new Disc(artistID);
                     rankNodeOld->getNext()->getData()->insert(artistID,discNew);
                     discNew->setRankPtr(rankNodeOld->getNext());
-                    discNew->addSong((long*)song);
+                    discNew->addSong(song);
                     song->setDisc(discNew);
                 }
             }
@@ -159,7 +160,7 @@ public:
                 Disc* discNew = new Disc(artistID);
                 rankNodeNew->getData()->insert(artistID,discNew);
                 discNew->setRankPtr(rankNodeNew);
-                discNew->addSong((long*)song);
+                discNew->addSong(song);
                 song->setDisc(discNew);
             }
 
