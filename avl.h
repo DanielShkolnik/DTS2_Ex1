@@ -6,7 +6,7 @@
 #define DTS2_EX1_AVL_H
 
 #include "node.h"
-
+#include <assert.h>
 
 template <class K, class D>
 class Avl{

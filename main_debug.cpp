@@ -318,5 +318,4 @@ static errorType OnQuit(void** DS, const char* const command) {
 }
 
 #ifdef __cplusplus
-}
 #endif

@@ -23,7 +23,7 @@ public:
         return this->songID;
     }
     int getArtistID(){
-        this->artistID;
+        return this->artistID;
     }
     void increasePopularity(){
         this->popularity++;

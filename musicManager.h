@@ -181,6 +181,7 @@ public:
 
             if(this->bestHitsListFinish->getNext()!= nullptr) this->bestHitsListFinish=this->bestHitsListFinish->getNext();
 
+            return SUCCESS;
         }
         catch(std::bad_alloc& e) {
             return ALLOCATION_ERROR;
@@ -194,6 +195,7 @@ public:
         if(artistID<=0 || songID<0) return INVALID_INPUT;
         try {
             *streams = this->artistTree.find(artistID)->getData()->getSong(songID)->getPopularity();
+            return SUCCESS;
         }
         catch (std::bad_alloc& e) {
             return ALLOCATION_ERROR;
@@ -280,6 +282,7 @@ public:
                 // traverse tree for current rank
                 inorder<int, Disc, DiscPredicate>(discIter, discPred);
             }
+            return SUCCESS;
         }
         catch (Artist::INVALID_INPUT&) {
             return INVALID_INPUT;
