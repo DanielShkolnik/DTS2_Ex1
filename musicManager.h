@@ -72,7 +72,6 @@ public:
         ArtistPredicate artistPred;
 
         postorder<int,Artist,ArtistPredicate>(artistNode,artistPred);
-        this->artistTree.~Avl();
     }
     MusicManager(const MusicManager& musicManager) = delete;
     MusicManager& operator=(const MusicManager& musicManager) = delete;
