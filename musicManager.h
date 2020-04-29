@@ -26,11 +26,26 @@ public:
         this->bestHitsListStart = new Node<int,Avl<int,Disc>>(0, new Avl<int,Disc>);
         this->bestHitsListFinish = this->bestHitsListStart;
     }
+
+    class DiscPredicateDelete{
+    public:
+        void operator()(Node<int,Disc>* discNode){
+            // delete disc
+            delete discNode->getData();
+        }
+        explicit DiscPredicate(){};
+        DiscPredicate(const DiscPredicate& a) = delete;
+    };
+
     ~MusicManager(){
         Node<int,Avl<int,Disc>>* current = this->bestHitsListStart;
         Node<int,Avl<int,Disc>>* prev = current;
         while(current!= nullptr){
             current= current->getNext();
+            // do inorder to free data in each node
+            DiscPredicateDelete discDelete();
+            postorder<int,Avl<int,Disc>,DiscPredicateDelete>(prev->getData(),discDelete());
+            delete prev->getData();
             delete prev;
             prev = current;
         }
@@ -55,7 +70,7 @@ public:
 
             // update artists song
             for(int i=0;i<artist->getNumOfSongs();i++){
-                disc->addSong((long*)(artist->getSong(i))); //Need to fix
+                disc->addSong((artist->getSong(i))); //Need to fix
                 artist->getSong(i)->setDisc(disc);
             }
 
