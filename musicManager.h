@@ -22,7 +22,7 @@ Node<int,Avl<int,Disc>>* bestHitsListFinish;
 int totalSongs;
 
 public:
-    MusicManager(){
+    MusicManager():totalSongs(0){
         this->bestHitsListStart = new Node<int,Avl<int,Disc>>(0, new Avl<int,Disc>);
         this->bestHitsListFinish = this->bestHitsListStart;
     }
@@ -33,7 +33,7 @@ public:
             // delete disc
             delete discNode->getData();
         }
-        explicit DiscPredicateDelete(){};
+        explicit DiscPredicateDelete() = default;
         DiscPredicateDelete(const DiscPredicateDelete& a) = delete;
     };
 
@@ -42,10 +42,15 @@ public:
         Node<int,Avl<int,Disc>>* prev = current;
         while(current!= nullptr){
             current= current->getNext();
-            // do inorder to free data in each node
-            DiscPredicateDelete discDelete();
 
-            postorder<int,Avl<int,Disc>,DiscPredicateDelete>(prev,discDelete);
+            // get the root of disc tree of the prev node in BestHitList
+            Node<int,Disc>* discNode = prev->getData()->getRoot();
+
+            // do inorder to free data in each node
+            DiscPredicateDelete discDelete;
+
+            postorder<int,Disc,DiscPredicateDelete>(discNode,discDelete);
+
             delete prev->getData();
             delete prev;
             prev = current;
