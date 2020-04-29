@@ -67,7 +67,7 @@ public:
         }
 
         // get artist tree root
-        Node<int,Artist>* artistNode = artistTree.getRoot();
+        Node<int,Artist>* artistNode = this->artistTree.getRoot();
         // create inst of artist destructor
         ArtistPredicate artistPred;
 
@@ -120,11 +120,13 @@ public:
             Artist* artist= this->artistTree.find(artistID)->getData();
             int numOfSongs=artist->getNumOfSongs();
             Node<int,Avl<int,Disc>>* current = this->bestHitsListStart;
-            delete artist;
             //Delete from Artist Tree
             this->artistTree.deleteVertice(artistID);
+            delete artist;
             while(current!= nullptr){
                 try{
+                    Disc* disc = current->getData()->find(artistID)->getData();
+                    delete disc;
                     current->getData()->deleteVertice(artistID);
                 }
                 catch(Avl<int,Disc>::KeyNotFound& e){
