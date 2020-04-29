@@ -97,6 +97,7 @@ int main(int argc, const char**argv) {
             /*if(i==7620){
                 int j=0;
             }*/
+            std::cout << std::endl;
             if (parser(line.c_str()) == error)
                 break;
             i++;
