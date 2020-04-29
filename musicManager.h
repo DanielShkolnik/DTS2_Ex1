@@ -246,7 +246,7 @@ public:
 
 
             // create inst of predicate for song
-            SongPredicate songPred(artistsArray,disc->getData()->getArtistID(),songsArray,index,counter);
+            SongPredicate songPred(artistsArray,song->getData()->getArtistID(),songsArray,index,counter);
 
             // traverse song tree
             inorder<int,Song,SongPredicate>(song, songPred);

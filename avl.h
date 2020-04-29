@@ -15,14 +15,13 @@ private:
     void fixBalanceFactor(Node<K,D>* childVertice);
     void updateRoot(Node<K,D>* node);
     void fixRelations(Node<K,D>* parent, Node<K,D>* son);
-    void rotateLL(Node<K,D>* node);
+    void rotateLL(Node<K,D>* B);
     void rotateLR(Node<K,D>* C);
     void rotateRL(Node<K,D>* C);
     void rotateRR(Node<K,D>* B);
     int getBF(Node<K,D>* node);
     Node<K,D>* getNextAvailable(K key);
     void removeFromParent(Node<K,D>* node);
-    bool isRightSon(Node<K,D>* node);
     bool isLeftSon(Node<K,D>* node);
 
 
@@ -277,12 +276,6 @@ bool Avl<K,D>::isLeftSon(Node<K,D>* node){
 }
 
 template <class K, class D>
-bool Avl<K,D>::isRightSon(Node<K,D>* node){
-    if(node->getParent()->getRight()== nullptr) return false;
-    return node->getParent()->getRight()->getKey()==node->getKey();
-}
-
-template <class K, class D>
 void Avl<K,D>::updateRoot(Node<K,D>* node){
     while(node->getParent() != nullptr){
         node = node->getParent();
@@ -398,7 +391,7 @@ void destroy(Node<K,D>* node){
 
 template <class K, class D>
 Avl<K,D>::~Avl(){
-    postorder<K,D,void (Node<K,D>* node)>(this->root,destroy);
+    postorder<K,D,void (Node<K,D>*)>(this->root,destroy);
 }
 
 template <class K, class D>

@@ -32,7 +32,7 @@ public:
     void addCount(int songID){
         songArray[songID]->increasePopularity();
     }
-    int getArtistID(){
+    int getArtistID() const {
         return this->artistID;
     }
 
@@ -40,14 +40,11 @@ public:
         return this->songArray[index];
     }
 
-    int getNumOfSongs(){
+    int getNumOfSongs() const {
         return this->numOfSongs;
     }
 
     class INVALID_INPUT{};
-    class ALLOCATION_ERROR{};
-    class FAILURE{};
-    class SUCCESS{};
 };
 
 
