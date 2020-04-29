@@ -12,6 +12,10 @@
 #include "song.h"
 #include "library1.h"
 #include "exception"
+#include <iostream>
+
+using namespace std;
+using std::bad_alloc;
 
 
 class MusicManager{
@@ -88,10 +92,10 @@ public:
             this->totalSongs+=numOfSongs;
             return SUCCESS;
         }
-        catch (std::bad_alloc&) {
+        catch (std::bad_alloc& e) {
             return ALLOCATION_ERROR;
         }
-        catch(const Avl<int,Artist>::KeyExists&) {
+        catch(const Avl<int,Artist>::KeyExists& e) {
             return FAILURE;
         }
     }
@@ -204,7 +208,7 @@ public:
         catch (std::bad_alloc& e) {
             return ALLOCATION_ERROR;
         }
-        catch(const Avl<int,Artist>::KeyExists&) {
+        catch(const Avl<int,Artist>::KeyExists& e) {
             return FAILURE;
         }
     }
@@ -286,13 +290,13 @@ public:
             }
             return SUCCESS;
         }
-        catch (Artist::INVALID_INPUT&) {
+        catch (Artist::INVALID_INPUT& e) {
             return INVALID_INPUT;
         }
         catch(std::bad_alloc& e) {
             return ALLOCATION_ERROR;
         }
-        catch(Avl<int,Artist>::KeyExists&) {
+        catch(Avl<int,Artist>::KeyExists& e) {
             return FAILURE;
         }
     }
