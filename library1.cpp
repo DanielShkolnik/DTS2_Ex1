@@ -6,16 +6,27 @@
 
 void *Init(){
     MusicManager *DS = new MusicManager();
-    return
+    return (void*)DS;
 }
 
-StatusType AddArtist(void *DS, int artistID, int numOfSongs);
+StatusType AddArtist(void *DS, int artistID, int numOfSongs){
+    if(DS == nullptr) return INVALID_INPUT;
+    return ((MusicManager*)DS)->AddArtist(artistID,numOfSongs);
+}
 
-StatusType RemoveArtist(void *DS, int artistID);
+StatusType RemoveArtist(void *DS, int artistID){
+    if(DS == nullptr) return INVALID_INPUT;
+    return ((MusicManager*)DS)->RemoveArtist(artistID);
+}
 
-StatusType AddToSongCount(void *DS, int artistID, int songID);
+StatusType AddToSongCount(void *DS, int artistID, int songID){
+    if(DS == nullptr) return INVALID_INPUT;
+    return ((MusicManager*)DS)->AddToSongCount(artistID,songID);
+}
 
-StatusType NumberOfStreams(void *DS, int artistID, int songID, int *streams);
+StatusType NumberOfStreams(void *DS, int artistID, int songID, int *streams){
+
+}
 
 StatusType GetRecommendedSongs(void *DS, int numOfSongs, int *artists, int *songs);
 
