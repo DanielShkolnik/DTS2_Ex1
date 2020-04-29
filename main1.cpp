@@ -252,7 +252,8 @@ static errorType OnNumberOfStreams(void* DS, const char* const command) {
 }
 
 static errorType OnGetRecommendedSongs(void* DS, const char* const command) {
-    int numOfSongs;
+    std::string num=std::string(command);
+    int numOfSongs=stoi(num);
     int *artists, *songs;
 
 	artists = (int *)malloc(numOfSongs * sizeof(int));
