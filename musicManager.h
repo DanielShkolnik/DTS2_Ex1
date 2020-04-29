@@ -14,7 +14,6 @@
 #include "exception"
 #include <iostream>
 
-using namespace std;
 using std::bad_alloc;
 
 
