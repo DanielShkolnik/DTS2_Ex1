@@ -19,7 +19,7 @@ public:
     ~Song() = default;
     Song(const Song& song) = delete;
     Song& operator=(const Song& song) = delete;
-    int getSongID(){
+    int getSongID() const {
         return this->songID;
     }
     int getArtistID(){
@@ -29,15 +29,15 @@ public:
         this->popularity++;
     }
 
-    void setDisc(Disc* disc){
-        this->disc=disc;
+    void setDisc(Disc* discToSet){
+        this->disc=discToSet;
     }
 
     Disc* getDisc(){
         return this->disc;
     }
 
-    int getPopularity(){
+    int getPopularity() const {
         return this->popularity;
     }
 

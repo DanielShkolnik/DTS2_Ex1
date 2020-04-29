@@ -11,13 +11,12 @@
 class Disc{
 private:
     int artistID;
-    int numOfSongs;
     Node<int,Avl<int,Disc>>* rankPtr;
     Avl<int,Song>* songTree;
 
 public:
     Disc() = delete;
-    Disc(int artistID):artistID(artistID),rankPtr(nullptr){
+    explicit Disc(int artistID):artistID(artistID),rankPtr(nullptr){
         this->songTree = new Avl<int,Song>();
     };
     ~Disc(){
@@ -30,7 +29,7 @@ public:
         return this->songTree;
     }
 
-    int getArtistID(){
+    int getArtistID() const {
         return this->artistID;
     }
 
@@ -40,15 +39,14 @@ public:
 
     void addSong(Song* song){
         this->songTree->insert(song->getSongID(),song);
-        this->numOfSongs++;
     }
 
     void removeSong(int songID){
         this->songTree->deleteVertice(songID);
     }
 
-    void setRankPtr(Node<int,Avl<int,Disc>>* rankPtr){
-        this->rankPtr = rankPtr;
+    void setRankPtr(Node<int,Avl<int,Disc>>* rankPtrToSet){
+        this->rankPtr = rankPtrToSet;
     }
 
 
