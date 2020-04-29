@@ -245,7 +245,7 @@ public:
         void operator()(Node<int,Disc>* disc){
             if(*counter > 0){
             // get songTree root
-            Node<int,Song>* song = (Node<int,Song>*)(disc->getData()->getSongTree()->getRoot());
+            Node<int,Song>* song = (disc->getData()->getSongTree()->getRoot());
 
 
             // create inst of predicate for song
@@ -263,8 +263,8 @@ public:
         if(numOfSongs <= 0) return INVALID_INPUT;
         if(numOfSongs > this->totalSongs) return FAILURE;
         try {
-            int i = 0;
-            int *counter = &numOfSongs;
+            int i = 0, j=numOfSongs;
+            int *counter = &j;
             int *index = &i;
             // set iterator to end of list & init counter
             Node<int, Avl<int, Disc>> *iter = this->bestHitsListFinish;
