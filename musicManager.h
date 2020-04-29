@@ -180,7 +180,10 @@ public:
                 rankNodeOld->removeNode();
             }
 
-            if(this->bestHitsListFinish->getNext()!= nullptr) this->bestHitsListFinish=this->bestHitsListFinish->getNext();
+            if(this->bestHitsListFinish->getNext()!= nullptr){
+                this->bestHitsListFinish=this->bestHitsListFinish->getNext();
+
+            }
 
             return SUCCESS;
         }
