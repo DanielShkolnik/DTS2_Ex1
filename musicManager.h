@@ -72,7 +72,7 @@ public:
         ArtistPredicate artistPred;
 
         postorder<int,Artist,ArtistPredicate>(artistNode,artistPred);
-
+        this->artistTree.~Avl();
     }
     MusicManager(const MusicManager& musicManager) = delete;
     MusicManager& operator=(const MusicManager& musicManager) = delete;
@@ -120,6 +120,7 @@ public:
             Artist* artist= this->artistTree.find(artistID)->getData();
             int numOfSongs=artist->getNumOfSongs();
             Node<int,Avl<int,Disc>>* current = this->bestHitsListStart;
+            delete artist;
             //Delete from Artist Tree
             this->artistTree.deleteVertice(artistID);
             while(current!= nullptr){
