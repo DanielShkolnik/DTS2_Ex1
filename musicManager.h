@@ -81,9 +81,11 @@ public:
         if(artistID<=0 || numOfSongs<=0){
             return INVALID_INPUT;
         }
+        Artist* artist;
         try {
+
             // create artist node
-            Artist* artist = new Artist(artistID,numOfSongs);
+            artist = new Artist(artistID,numOfSongs);
 
             // insert into tree
             this->artistTree.insert(artistID, artist);
@@ -109,6 +111,7 @@ public:
             return ALLOCATION_ERROR;
         }
         catch(const Avl<int,Artist>::KeyExists& e) {
+            delete artist;
             return FAILURE;
         }
     }
