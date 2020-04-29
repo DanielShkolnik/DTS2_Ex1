@@ -269,11 +269,13 @@ static errorType OnNumberOfStreams(void* DS, const char* const command) {
 }
 
 static errorType OnGetRecommendedSongs(void* DS, const char* const command) {
-    int numOfSongs;
+    std::string num=std::string(command);
+    int numOfSongs=stoi(num);
     int *artists, *songs;
 
     artists = (int*)malloc(numOfSongs*sizeof(int));
     songs = (int*)malloc(numOfSongs*sizeof(int));
+
 
     ValidateRead(sscanf(command, "%d", &numOfSongs), 1, "%s failed.\n", commandStr[GETRECOMMENDEDSONGS_CMD]);
     StatusType res;
