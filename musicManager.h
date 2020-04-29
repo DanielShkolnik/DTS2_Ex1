@@ -161,8 +161,8 @@ public:
                 Node<int,Avl<int,Disc>>* rankNodeNew = new Node<int,Avl<int,Disc>>(popularity, new Avl<int,Disc>);
                 rankNodeNew->setPrev(rankNodeOld);
                 rankNodeNew->setNext(rankNodeOld->getNext());
-                rankNodeOld->setNext(rankNodeNew);
                 if(rankNodeOld->getNext()!= nullptr) rankNodeOld->getNext()->setPrev(rankNodeNew);
+                rankNodeOld->setNext(rankNodeNew);
                 Disc* discNew = new Disc(artistID);
                 rankNodeNew->getData()->insert(artistID,discNew);
                 discNew->setRankPtr(rankNodeNew);
@@ -226,8 +226,8 @@ public:
                 songsArray[*index] = songNode->getData()->getSongID();
 
                 // update index
-                *index++;
-                *counter--;
+                (*index) = (*index) + 1;
+                (*counter) = (*counter) - 1;
             }
         }
         explicit SongPredicate(int* artistsArray,int artistID,int* songsArray, int* index,int* counter):artistsArray(artistsArray),artistID(artistID), songsArray(songsArray), index(index),counter(counter){};
@@ -271,8 +271,6 @@ public:
 
             // loop over nodes of list
             for (; (iter != nullptr && *counter > 0); iter = iter->getPrev()) {
-
-                // for each node do inorder traverse on disc tree
 
                 // get disc root
                 Node<int, Disc> *discIter = iter->getData()->getRoot();
