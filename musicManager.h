@@ -138,10 +138,10 @@ public:
             this->totalSongs-=numOfSongs;
             return SUCCESS;
         }
-        catch(std::bad_alloc& e) {
+        catch(std::bad_alloc&) {
             return ALLOCATION_ERROR;
         }
-        catch(Avl<int,Artist>::KeyNotFound& e){
+        catch(Avl<int,Artist>::KeyNotFound&){
             return FAILURE;
         }
     }
@@ -205,10 +205,10 @@ public:
 
             return SUCCESS;
         }
-        catch(std::bad_alloc& e) {
+        catch(std::bad_alloc&) {
             return ALLOCATION_ERROR;
         }
-        catch(Avl<int,Artist>::KeyNotFound& e){
+        catch(Avl<int,Artist>::KeyNotFound&){
             return FAILURE;
         }
     }
@@ -307,7 +307,7 @@ public:
         catch (Artist::INVALID_INPUT& e) {
             return INVALID_INPUT;
         }
-        catch(std::bad_alloc& e) {
+        catch(std::bad_alloc&) {
             return ALLOCATION_ERROR;
         }
         catch(Avl<int,Artist>::KeyExists& e) {
