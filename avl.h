@@ -386,6 +386,7 @@ void destroy(Node<K,D>* node){
     node->setParent(nullptr);
     node->setRight(nullptr);
     node->setLeft(nullptr);
+    delete node->getData();
     delete node;
 }
 

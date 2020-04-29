@@ -27,7 +27,7 @@ public:
         this->bestHitsListFinish = this->bestHitsListStart;
     }
 
-    class DiscPredicateDelete{
+   /* class DiscPredicateDelete{
     public:
         void operator()(Node<int,Disc>* discNode){
             // delete disc
@@ -37,6 +37,16 @@ public:
         DiscPredicateDelete(const DiscPredicateDelete& a) = delete;
     };
 
+    class ArtistPredicate{
+    public:
+        void operator()(Node<int,Artist>* artistNode){
+            // delete artist
+            delete artistNode->getData();
+        }
+        explicit ArtistPredicate() = default;
+        ArtistPredicate(const ArtistPredicate& a) = delete;
+    }; */
+
     ~MusicManager(){
         Node<int,Avl<int,Disc>>* current = this->bestHitsListStart;
         Node<int,Avl<int,Disc>>* prev = current;
@@ -44,17 +54,25 @@ public:
             current= current->getNext();
 
             // get the root of disc tree of the prev node in BestHitList
-            Node<int,Disc>* discNode = prev->getData()->getRoot();
+            //Node<int,Disc>* discNode = prev->getData()->getRoot();
 
             // do inorder to free data in each node
-            DiscPredicateDelete discDelete;
+            //DiscPredicateDelete discDelete;
 
-            postorder<int,Disc,DiscPredicateDelete>(discNode,discDelete);
+            //postorder<int,Disc,DiscPredicateDelete>(discNode,discDelete);
 
             delete prev->getData();
             delete prev;
             prev = current;
         }
+
+        // get artist tree root
+        //Node<int,Artist>* artistNode = artistTree.getRoot();
+        // create inst of artist destructor
+        //ArtistPredicate artistPred;
+
+        //postorder<int,Artist,ArtistPredicate>(artistNode,artistPred);
+
     }
     MusicManager(const MusicManager& musicManager) = delete;
     MusicManager& operator=(const MusicManager& musicManager) = delete;

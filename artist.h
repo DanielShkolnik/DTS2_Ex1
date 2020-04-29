@@ -22,9 +22,9 @@ public:
 
     };
     ~Artist(){
-        for (int i = 0; i < numOfSongs; ++i) {
+        /*for (int i = 0; i < numOfSongs; ++i) {
             delete this->songArray[i];
-        }
+        }*/
         delete[] songArray;
     };
     Artist(const Artist& artist)= delete;
