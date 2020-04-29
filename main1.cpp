@@ -19,6 +19,8 @@
 #include <string.h>
 #include "library1.h"
 
+using namespace std;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -255,12 +257,13 @@ static errorType OnGetRecommendedSongs(void* DS, const char* const command) {
     int numOfSongs;
     int *artists, *songs;
 
-	artists = (int *)malloc(numOfSongs * sizeof(int));
-	songs = (int *)malloc(numOfSongs * sizeof(int));
-
     ValidateRead(sscanf(command, "%d", &numOfSongs), 1, "%s failed.\n", commandStr[GETRECOMMENDEDSONGS_CMD]);
-	StatusType res;
-	if (artists != NULL && songs != NULL) {
+    StatusType res;
+
+    artists = (int*)malloc(numOfSongs*sizeof(int));
+    songs = (int*)malloc(numOfSongs*sizeof(int));
+
+    if (artists != NULL && songs != NULL) {
 		res = GetRecommendedSongs(DS, numOfSongs, artists, songs);
 	}
 	else {
