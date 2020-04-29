@@ -19,7 +19,6 @@
 #include <string.h>
 #include "library1.h"
 
-using namespace std;
 
 #ifdef __cplusplus
 extern "C" {
