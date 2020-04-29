@@ -19,6 +19,7 @@ private:
 Avl<int,Artist> artistTree;
 Node<int,Avl<int,Disc>>* bestHitsListStart;
 Node<int,Avl<int,Disc>>* bestHitsListFinish;
+int totalSongs;
 
 public:
     MusicManager(){
@@ -39,7 +40,9 @@ public:
 
 
     StatusType AddArtist(int artistID, int numOfSongs){
-
+        if(artistID<=0 || numOfSongs<=0){
+            return INVALID_INPUT;
+        }
         try {
             // create artist node
             Artist* artist = new Artist(artistID,numOfSongs);
@@ -52,8 +55,8 @@ public:
 
             // update artists song
             for(int i=0;i<artist->getNumOfSongs();i++){
-                disc->addSong((long*)(artist->getSongNode(i)->getData())); //Need to fix
-                artist->getSongNode(i)->getData()->setDisc(disc);
+                disc->addSong((long*)(artist->getSong(i))); //Need to fix
+                artist->getSong(i)->setDisc(disc);
             }
 
             // insert disc into disc tree at rank 0 in bestHitsList
@@ -61,21 +64,25 @@ public:
 
             // update ptr to rank
             disc->setRankPtr(this->bestHitsListStart);
-        } catch (const Artist::ALLOCATION_ERROR&) {
-            throw static_cast<StatusType>(-2);
-        } catch (const Artist::INVALID_INPUT&) {
-            throw static_cast<StatusType>(-3);
-        }  catch(const Avl<int,Artist>::KeyExists&) {
-            throw static_cast<StatusType>(-1);
+            this->totalSongs+=numOfSongs;
+            return SUCCESS;
         }
-        return static_cast<StatusType>(0);
+        catch (std::bad_alloc&) {
+            return ALLOCATION_ERROR;
+        }
+        catch(const Avl<int,Artist>::KeyExists&) {
+            return FAILURE;
+        }
     }
 
     StatusType RemoveArtist(int artistID){
         if(artistID<=0) return INVALID_INPUT;
         try{
             Artist* artist= this->artistTree.find(artistID)->getData();
+            int numOfSongs=artist->getNumOfSongs();
             Node<int,Avl<int,Disc>>* current = this->bestHitsListStart;
+            //Delete from Artist Tree
+            this->artistTree.deleteVertice(artistID);
             while(current!= nullptr){
                 try{
                     current->getData()->deleteVertice(artistID);
@@ -83,12 +90,12 @@ public:
                 catch(Avl<int,Disc>::KeyNotFound& e){
                     continue;
                 }
+
                 if(current->getData()->isEmpty()){
-                    if(current->getPrev()!= nullptr) current->getPrev()->setNext(current->getNext());
-                    if(current->getNext()!= nullptr) current->getNext()->setPrev(current->getPrev());
+                    current->removeNode();
                 }
             }
-            this->artistTree.deleteVertice(artistID);
+            this->totalSongs-=numOfSongs;
             return SUCCESS;
         }
         catch(std::bad_alloc& e) {
@@ -100,11 +107,11 @@ public:
     }
 
     StatusType AddToSongCount(int artistID, int songID){
-        if(artistID<=0 || songID<=0) return INVALID_INPUT;
+        if(artistID<=0 || songID<0) return INVALID_INPUT;
         try{
             Artist* artist=this->artistTree.find(artistID)->getData();
             if(songID >= artist->getNumOfSongs()) return INVALID_INPUT;
-            Song* song = artist->getSongNode(songID)->getData();
+            Song* song = artist->getSong(songID);
             Disc* discOld = song->getDisc();
             Node<int,Avl<int,Disc>>* rankNodeOld = discOld->getRankPtr();
 
@@ -125,6 +132,7 @@ public:
                     rankNodeOld->getNext()->getData()->insert(artistID,discNew);
                     discNew->setRankPtr(rankNodeOld->getNext());
                     discNew->addSong((long*)song);
+                    song->setDisc(discNew);
                 }
             }
             else{
@@ -132,15 +140,20 @@ public:
                 rankNodeNew->setPrev(rankNodeOld);
                 rankNodeNew->setNext(rankNodeOld->getNext());
                 rankNodeOld->setNext(rankNodeNew);
+                if(rankNodeOld->getNext()!= nullptr) rankNodeOld->getNext()->setPrev(rankNodeNew);
                 Disc* discNew = new Disc(artistID);
                 rankNodeNew->getData()->insert(artistID,discNew);
                 discNew->setRankPtr(rankNodeNew);
                 discNew->addSong((long*)song);
+                song->setDisc(discNew);
             }
 
             if(rankNodeOld->getData()->isEmpty()){
                 if(this->bestHitsListStart->getKey() == rankNodeOld->getKey()){
                     this->bestHitsListStart = rankNodeOld->getNext();
+                }
+                if(this->bestHitsListFinish->getKey() == rankNodeOld->getKey()){
+                    this->bestHitsListFinish=rankNodeOld->getPrev();
                 }
                 rankNodeOld->removeNode();
             }
@@ -157,14 +170,15 @@ public:
     }
 
     StatusType NumberOfStreams(int artistID, int songID, int *streams){
+        if(artistID<=0 || songID<0) return INVALID_INPUT;
         try {
-            *streams = this->artistTree.find(artistID)->getData()->getSongNode(songID)->getData()->getPopularity();
-        } catch (const Artist::ALLOCATION_ERROR&) {
-            throw static_cast<StatusType>(-2);
-        } catch (const Artist::INVALID_INPUT&) {
-            throw static_cast<StatusType>(-3);
-        }  catch(const Avl<int,Artist>::KeyExists&) {
-            throw static_cast<StatusType>(-1);
+            *streams = this->artistTree.find(artistID)->getData()->getSong(songID)->getPopularity();
+        }
+        catch (std::bad_alloc& e) {
+            return ALLOCATION_ERROR;
+        }
+        catch(const Avl<int,Artist>::KeyExists&) {
+            return FAILURE;
         }
     }
 
@@ -205,25 +219,25 @@ public:
     public:
         // for each node in disc tree do inorder traverse on song tree + add song to song array & artist to artist array
         void operator()(Node<int,Disc>* disc){
-
+            if(*counter > 0){
             // get songTree root
             Node<int,Song>* song = (Node<int,Song>*)(disc->getData()->getSongTree()->getRoot());
 
-            // init indices
-            int i = 0; int* songIndex = &i;
 
             // create inst of predicate for song
             SongPredicate songPred(artistsArray,disc->getData()->getArtistID(),songsArray,index,counter);
 
             // traverse song tree
             inorder<int,Song,SongPredicate>(song, songPred);
-
+            }
         }
         explicit DiscPredicate(int* artistsArray,int* counter,int* index,int* songsArray):artistsArray(artistsArray),counter(counter),index(index),songsArray(songsArray){};
         DiscPredicate(const DiscPredicate& a) = delete;
     };
 
     StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs){
+        if(numOfSongs <= 0) return INVALID_INPUT;
+        if(numOfSongs > this->totalSongs) return FAILURE;
         try {
             int i = 0;
             int *counter = &numOfSongs;
@@ -232,7 +246,7 @@ public:
             Node<int, Avl<int, Disc>> *iter = this->bestHitsListFinish;
 
             // loop over nodes of list
-            for (; iter != nullptr && *counter > 0; iter = iter->getNext()) {
+            for (; (iter != nullptr && *counter > 0); iter = iter->getNext()) {
 
                 // for each node do inorder traverse on disc tree
 
@@ -245,12 +259,15 @@ public:
                 // traverse tree for current rank
                 inorder<int, Disc, DiscPredicate>(discIter, discPred);
             }
-        } catch (const Artist::ALLOCATION_ERROR&) {
-            throw static_cast<StatusType>(-2);
-        } catch (const Artist::INVALID_INPUT&) {
-            throw static_cast<StatusType>(-3);
-        }  catch(const Avl<int,Artist>::KeyExists&) {
-            throw static_cast<StatusType>(-1);
+        }
+        catch (Artist::INVALID_INPUT&) {
+            return INVALID_INPUT;
+        }
+        catch(std::bad_alloc& e) {
+            return ALLOCATION_ERROR;
+        }
+        catch(Avl<int,Artist>::KeyExists&) {
+            return FAILURE;
         }
     }
 

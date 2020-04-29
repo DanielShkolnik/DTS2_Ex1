@@ -8,23 +8,18 @@
 #include "node.h"
 #include "song.h"
 
-
 class Artist{
 private:
     int artistID;
     int numOfSongs;
-    Node<int,Song>** songArray;
+    Song** songArray;
 public:
     Artist(int artistID,int numOfSongs):artistID(artistID),numOfSongs(numOfSongs){
-        if(this->artistID<=0 || this->numOfSongs<=0){
-            throw INVALID_INPUT();
-        }
-        this->songArray = new Node<int,Song>*[numOfSongs]();
-        if(songArray == nullptr){ throw ALLOCATION_ERROR();}
+        this->songArray = new Song*[numOfSongs]();
         for (int i = 0; i < this->numOfSongs; ++i) {
-            songArray[i] = new Node<int,Song>(i, new Song(i, this->artistID));
-            if(songArray[i] == nullptr){ throw ALLOCATION_ERROR();}
+            songArray[i] = new Song(i, this->artistID);
         }
+
     };
     ~Artist(){
         for (int i = 0; i < numOfSongs; ++i) {
@@ -35,13 +30,13 @@ public:
     Artist(const Artist& artist)= delete;
     Artist& operator=(const Artist& artist)= delete;
     void addCount(int songID){
-        songArray[songID]->getData()->increasePopularity();
+        songArray[songID]->increasePopularity();
     }
     int getArtistID(){
         return this->artistID;
     }
 
-    Node<int,Song>* getSongNode(int index){
+    Song* getSong(int index){
         return this->songArray[index];
     }
 
