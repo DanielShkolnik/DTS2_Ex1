@@ -272,8 +272,8 @@ static errorType OnGetRecommendedSongs(void* DS, const char* const command) {
     int numOfSongs;
     int *artists, *songs;
 
-    artists = (int *)malloc(numOfSongs * sizeof(int));
-    songs = (int *)malloc(numOfSongs * sizeof(int));
+    artists = (int*)malloc(numOfSongs*sizeof(int));
+    songs = (int*)malloc(numOfSongs*sizeof(int));
 
     ValidateRead(sscanf(command, "%d", &numOfSongs), 1, "%s failed.\n", commandStr[GETRECOMMENDEDSONGS_CMD]);
     StatusType res;

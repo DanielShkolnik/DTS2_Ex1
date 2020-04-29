@@ -115,6 +115,7 @@ public:
                 if(current->getData()->isEmpty()){
                     current->removeNode();
                 }
+                current=current->getNext();
             }
             this->totalSongs-=numOfSongs;
             return SUCCESS;

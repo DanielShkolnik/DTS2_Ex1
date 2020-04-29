@@ -277,6 +277,7 @@ bool Avl<K,D>::isLeftSon(Node<K,D>* node){
 
 template <class K, class D>
 void Avl<K,D>::updateRoot(Node<K,D>* node){
+    if(node== nullptr) return;
     while(node->getParent() != nullptr){
         node = node->getParent();
     }
