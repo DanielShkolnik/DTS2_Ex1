@@ -161,8 +161,8 @@ public:
                 Node<int,Avl<int,Disc>>* rankNodeNew = new Node<int,Avl<int,Disc>>(popularity, new Avl<int,Disc>);
                 rankNodeNew->setPrev(rankNodeOld);
                 rankNodeNew->setNext(rankNodeOld->getNext());
-                rankNodeOld->setNext(rankNodeNew);
                 if(rankNodeOld->getNext()!= nullptr) rankNodeOld->getNext()->setPrev(rankNodeNew);
+                rankNodeOld->setNext(rankNodeNew);
                 Disc* discNew = new Disc(artistID);
                 rankNodeNew->getData()->insert(artistID,discNew);
                 discNew->setRankPtr(rankNodeNew);
@@ -180,7 +180,10 @@ public:
                 rankNodeOld->removeNode();
             }
 
-            if(this->bestHitsListFinish->getNext()!= nullptr) this->bestHitsListFinish=this->bestHitsListFinish->getNext();
+            if(this->bestHitsListFinish->getNext()!= nullptr){
+                this->bestHitsListFinish=this->bestHitsListFinish->getNext();
+
+            }
 
             return SUCCESS;
         }
