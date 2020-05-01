@@ -32,7 +32,6 @@ public:
         void operator()(Node<int,Disc>* discNode){
             // delete disc
             delete discNode->getData();
-            //discNode->getData() == nullptr;
         }
         explicit DiscPredicateDelete() = default;
         DiscPredicateDelete(const DiscPredicateDelete& a) = delete;
@@ -43,7 +42,6 @@ public:
         void operator()(Node<int,Artist>* artistNode){
             // delete artist
             delete artistNode->getData();
-            //artistNode->getData() == nullptr;
         }
         explicit ArtistPredicate() = default;
         ArtistPredicate(const ArtistPredicate& a) = delete;
@@ -64,7 +62,6 @@ public:
             postorder<int,Disc,DiscPredicateDelete>(discNode,discDelete);
 
             delete prev->getData();
-            //prev->getData() == nullptr;
             delete prev;
             prev = current;
         }
@@ -131,7 +128,7 @@ public:
         try{
             Artist* artist= this->artistTree.find(artistID)->getData();
             int numOfSongs=artist->getNumOfSongs();
-            //Node<int,Avl<int,Disc>>* current = this->bestHitsListStart;
+
             //Delete from Artist Tree
             this->artistTree.deleteVertice(artistID);
 
@@ -141,30 +138,12 @@ public:
                     Node<int,Avl<int,Disc>>* rank = artist->getDiscNode(i)->getData()->getRankPtr();
                     // delete disc
                     delete artist->getDiscNode(i)->getData();
-                    //artist->getDiscNode(i)->getData() == nullptr;
                     // delete node which held the disc
                     rank->getData()->deleteVertice(artistID);
-                    //artist->getDiscNode(i) == nullptr;
                 }
             }
 
             delete artist;
-            //artist == nullptr;
-            /*while(current!= nullptr){
-                try{
-                    Disc* disc = current->getData()->find(artistID)->getData();
-                    delete disc;
-                    current->getData()->deleteVertice(artistID);
-                }
-                catch(Avl<int,Disc>::KeyNotFound& e){
-                    continue;
-                }
-
-                if(current->getData()->isEmpty()){
-                    current->removeNode();
-                }
-                current=current->getNext();
-            }*/
             this->totalSongs-=numOfSongs;
             return SUCCESS;
         }
@@ -198,7 +177,6 @@ public:
             if(discOld->getSongTree()->isEmpty()){
                 oldDiscIndex = rankNodeOld->getData()->find(artistID)->getData()->getIndex();
                 rankNodeOld->getData()->deleteVertice(artistID);
-                //rankNodeOld->getData() == nullptr;
                 artist->setDiscNode(oldDiscIndex, nullptr);
                 useOldDiscIndex = true;
             }
@@ -279,7 +257,6 @@ public:
                     this->bestHitsListFinish=rankNodeOld->getPrev();
                 }
                 rankNodeOld->removeNode();
-                //rankNodeOld == nullptr;
             }
 
             if(this->bestHitsListFinish->getNext()!= nullptr){

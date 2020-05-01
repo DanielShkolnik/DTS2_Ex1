@@ -112,7 +112,6 @@ void Avl<K,D>::deleteVertice(const K& key){
 
     }
     delete vertice;
-    //vertice == nullptr;
 }
 
 // Gets the key and returns element with the nearest existing key
