@@ -13,7 +13,7 @@ private:
     int artistID;
     Node<int,Avl<int,Disc>>* rankPtr;
     Avl<int,Song>* songTree;
-
+    int indexInDiscArray;
 public:
     Disc() = delete;
     explicit Disc(int artistID):artistID(artistID),rankPtr(nullptr){
@@ -49,7 +49,13 @@ public:
         this->rankPtr = rankPtrToSet;
     }
 
+    int getIndex(){
+        return indexInDiscArray;
+    }
 
+    void setIndex(int index){
+        this->indexInDiscArray = index;
+    }
 
 };
 

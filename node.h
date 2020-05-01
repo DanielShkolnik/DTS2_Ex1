@@ -95,6 +95,7 @@ public:
         return this->right;
     }
 
+    // remove node function for linked list
     void removeNode(){
         if(this->getNext() == nullptr && this->getPrev() == nullptr){}
         else if(this->getPrev() == nullptr){
