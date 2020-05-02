@@ -104,13 +104,6 @@ public:
 
             // update ptr to rank
             disc->setRankPtr(this->bestHitsListStart);
-
-            // insert disc into artist's disk array
-            artist->initNewDiscNode(this->bestHitsListStart->getData()->find(disc->getArtistID()));
-
-            // update disc index in artist's disc array
-            disc->setIndex(artist->getLastDiscIndex());
-
             this->totalSongs+=numOfSongs;
             return SUCCESS;
         }
@@ -123,27 +116,46 @@ public:
         }
     }
 
+
+    class SongPredicateDestroy{
+    public:
+        void operator()(Node<int,Song>* songNode){
+            // delete artist
+            songNode->getData()->setDisc(nullptr);
+        }
+        explicit SongPredicateDestroy() = default;
+        SongPredicateDestroy(const SongPredicateDestroy& a) = delete;
+    };
+
+
+
     StatusType RemoveArtist(int artistID){
         if(artistID<=0) return INVALID_INPUT;
         try{
             Artist* artist= this->artistTree.find(artistID)->getData();
             int numOfSongs=artist->getNumOfSongs();
+            Node<int,Avl<int,Disc>>* currentNode;
+            for(int i=0; i<numOfSongs; i++){
 
-            //Delete from Artist Tree
-            this->artistTree.deleteVertice(artistID);
+                Disc* disc = artist->getSong(i)->getDisc();
+                if(disc== nullptr) continue;
 
-            // Empty artist's disc array
-            for (int i = 0; i < artist->getNumOfSongs(); ++i) {
-                if(artist->getDiscNode(i) != nullptr) {
-                    Node<int,Avl<int,Disc>>* rank = artist->getDiscNode(i)->getData()->getRankPtr();
-                    // delete disc
-                    delete artist->getDiscNode(i)->getData();
-                    // delete node which held the disc
-                    rank->getData()->deleteVertice(artistID);
+                Node<int,Song>* songNode = disc->getSongTree()->getRoot();
+                SongPredicateDestroy songPred;
+                postorder<int,Song,SongPredicateDestroy>(songNode,songPred);
+
+                currentNode = disc->getRankPtr();
+                delete disc;
+                currentNode->getData()->deleteVertice(artistID);
+
+                if(currentNode->getData()->isEmpty()){
+                    currentNode->removeNode();
                 }
             }
-
+            //Delete from Artist Tree
+            this->artistTree.deleteVertice(artistID);
             delete artist;
+
             this->totalSongs-=numOfSongs;
             return SUCCESS;
         }
@@ -155,17 +167,9 @@ public:
         }
     }
 
-    //
-    /*
-     * Notice:
-     * deleteVertice - remove vertice from tree
-     * removeNode - remove node from linked list
-     */
     StatusType AddToSongCount(int artistID, int songID){
         if(artistID<=0 || songID<0) return INVALID_INPUT;
         try{
-            int oldDiscIndex;
-            bool useOldDiscIndex = false;
             Artist* artist=this->artistTree.find(artistID)->getData();
             if(songID >= artist->getNumOfSongs()) return INVALID_INPUT;
             Song* song = artist->getSong(songID);
@@ -174,12 +178,7 @@ public:
 
             discOld->removeSong(songID);
 
-            if(discOld->getSongTree()->isEmpty()){
-                oldDiscIndex = rankNodeOld->getData()->find(artistID)->getData()->getIndex();
-                rankNodeOld->getData()->deleteVertice(artistID);
-                artist->setDiscNode(oldDiscIndex, nullptr);
-                useOldDiscIndex = true;
-            }
+            if(discOld->getSongTree()->isEmpty()) rankNodeOld->getData()->deleteVertice(artistID);
 
             artist->addCount(songID);
 
@@ -190,31 +189,11 @@ public:
                     rankNodeOld->getNext()->getData()->find(artistID)->getData()->addSong(song);
                 }
                 catch(Avl<int,Disc>::KeyNotFound& e){
-
-                    // create new disk
                     Disc* discNew = new Disc(artistID);
-
-                    // insert into disc tree of adequate node
                     rankNodeOld->getNext()->getData()->insert(artistID,discNew);
-
-                    // create ptr to rank from disc
                     discNew->setRankPtr(rankNodeOld->getNext());
-
-                    // add song to disc's song tree
                     discNew->addSong(song);
-
-                    // connect between the song and it's disc
                     song->setDisc(discNew);
-
-                    // inset disc into artist's disc array. remark it's the NODE that holds the disc! NOT the disc itself!
-                    if(useOldDiscIndex){
-                        artist->setDiscNode(oldDiscIndex,rankNodeOld->getNext()->getData()->find(discNew->getArtistID()));
-                        discNew->setIndex(oldDiscIndex);
-                    } else {
-                        artist->initNewDiscNode(rankNodeOld->getNext()->getData()->find(discNew->getArtistID()));
-                        discNew->setIndex(artist->getLastDiscIndex());
-                    }
-
                 }
             }
             else{
@@ -223,30 +202,11 @@ public:
                 rankNodeNew->setNext(rankNodeOld->getNext());
                 if(rankNodeOld->getNext()!= nullptr) rankNodeOld->getNext()->setPrev(rankNodeNew);
                 rankNodeOld->setNext(rankNodeNew);
-
-                // create new disc
                 Disc* discNew = new Disc(artistID);
-
-                // insert into rank
                 rankNodeNew->getData()->insert(artistID,discNew);
-
-                // set rank for disc
                 discNew->setRankPtr(rankNodeNew);
-
-                // add song to disc
                 discNew->addSong(song);
-
-                // update disc for song
                 song->setDisc(discNew);
-
-                // inset disc into artist's disc array. remark it's the NODE that holds the disc! NOT the disc itself!
-                if(useOldDiscIndex){
-                    artist->setDiscNode(oldDiscIndex,rankNodeOld->getNext()->getData()->find(discNew->getArtistID()));
-                    discNew->setIndex(oldDiscIndex);
-                } else {
-                    artist->initNewDiscNode(rankNodeOld->getNext()->getData()->find(discNew->getArtistID()));
-                    discNew->setIndex(artist->getLastDiscIndex());
-                }
             }
 
             if(rankNodeOld->getData()->isEmpty()){
