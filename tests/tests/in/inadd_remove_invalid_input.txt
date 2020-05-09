@@ -1,0 +1,8 @@
+Init
+AddArtist 0 10
+AddArtist -10 10
+AddArtist 1 0
+AddArtist 1 -10
+RemoveArtist 0
+RemoveArtist -10
+Quit

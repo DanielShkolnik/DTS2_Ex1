@@ -1,0 +1,5 @@
+Init
+AddArtist 1 1
+AddArtist 2 2
+AddToSongCount 1 0
+Quit

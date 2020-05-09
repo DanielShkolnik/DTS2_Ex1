@@ -1,0 +1,5 @@
+init done.
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddToSongCount: SUCCESS
+quit done.

@@ -1,0 +1,8 @@
+init done.
+AddArtist: INVALID_INPUT
+AddArtist: INVALID_INPUT
+AddArtist: INVALID_INPUT
+AddArtist: INVALID_INPUT
+RemoveArtist: INVALID_INPUT
+RemoveArtist: INVALID_INPUT
+quit done.

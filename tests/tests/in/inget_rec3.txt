@@ -1,0 +1,174 @@
+GetRecommendedSongs 0
+GetRecommendedSongs 1
+Init
+GetRecommendedSongs 0
+GetRecommendedSongs 1
+AddArtist 1 1000
+GetRecommendedSongs 0
+GetRecommendedSongs 1
+GetRecommendedSongs 1000
+GetRecommendedSongs 1001
+AddArtist 2 1
+AddArtist 1000 1
+AddArtist 40 800
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 1000 0
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 40 600
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+AddToSongCount 1 200
+GetRecommendedSongs 0
+GetRecommendedSongs 1
+GetRecommendedSongs 1802
+GetRecommendedSongs 1803
+GetRecommendedSongs 300
+RemoveArtist 1
+GetRecommendedSongs 802
+GetRecommendedSongs 803
+GetRecommendedSongs 804
+RemoveArtist 40
+GetRecommendedSongs 02
+GetRecommendedSongs 03
+GetRecommendedSongs 04
+Quit

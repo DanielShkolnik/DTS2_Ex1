@@ -1,0 +1,91 @@
+init done.
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+2	|	1
+3	|	2
+4	|	3
+5	|	2
+6	|	3
+6	|	2
+6	|	1
+7	|	0
+7	|	6
+--End of recommended songs--
+NumberOfStreams: 0
+NumberOfStreams: 1
+NumberOfStreams: 2
+NumberOfStreams: 3
+NumberOfStreams: 4
+NumberOfStreams: 5
+NumberOfStreams: 6
+NumberOfStreams: 7
+NumberOfStreams: 8
+NumberOfStreams: 9
+NumberOfStreams: 10
+quit done.

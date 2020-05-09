@@ -1,0 +1,302 @@
+init done.
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+AddArtist: SUCCESS
+GetRecommendedSongs: INVALID_INPUT
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+2	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+3	|	2
+4	|	0
+4	|	1
+4	|	2
+4	|	3
+5	|	0
+5	|	1
+5	|	2
+5	|	3
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+3	|	2
+4	|	0
+4	|	1
+4	|	2
+4	|	3
+5	|	0
+5	|	1
+5	|	2
+5	|	3
+5	|	4
+--End of recommended songs--
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+GetRecommendedSongs: INVALID_INPUT
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+5	|	2
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+5	|	2
+3	|	1
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	2
+4	|	0
+4	|	1
+4	|	3
+5	|	0
+5	|	1
+5	|	3
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+5	|	2
+3	|	1
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	2
+4	|	0
+4	|	1
+4	|	3
+5	|	0
+5	|	1
+5	|	3
+5	|	4
+--End of recommended songs--
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+GetRecommendedSongs: INVALID_INPUT
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+5	|	2
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+5	|	2
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+3	|	2
+4	|	0
+4	|	1
+4	|	3
+5	|	0
+5	|	1
+5	|	3
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+4	|	2
+5	|	2
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+3	|	2
+4	|	0
+4	|	1
+4	|	3
+5	|	0
+5	|	1
+5	|	3
+5	|	4
+--End of recommended songs--
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+RemoveArtist: SUCCESS
+GetRecommendedSongs: INVALID_INPUT
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	2
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	2
+1	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	2
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+3	|	2
+5	|	0
+5	|	1
+5	|	3
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	2
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+3	|	2
+5	|	0
+5	|	1
+5	|	3
+5	|	4
+--End of recommended songs--
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+RemoveArtist: SUCCESS
+GetRecommendedSongs: INVALID_INPUT
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+2	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+2	|	0
+2	|	1
+3	|	0
+3	|	1
+3	|	2
+--End of recommended songs--
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+RemoveArtist: SUCCESS
+GetRecommendedSongs: INVALID_INPUT
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+3	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+3	|	0
+3	|	1
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+1	|	0
+3	|	0
+3	|	1
+3	|	2
+--End of recommended songs--
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+AddArtist: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+AddToSongCount: SUCCESS
+GetRecommendedSongs: INVALID_INPUT
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	0
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	0
+5	|	1
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	0
+5	|	1
+1	|	0
+3	|	0
+3	|	1
+--End of recommended songs--
+GetRecommendedSongs: SUCCESS
+Artist	|	Song
+5	|	0
+5	|	1
+1	|	0
+3	|	0
+3	|	1
+3	|	2
+--End of recommended songs--
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+GetRecommendedSongs: FAILURE
+quit done.
