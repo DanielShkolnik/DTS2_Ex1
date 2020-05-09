@@ -275,6 +275,7 @@ public:
                 (*index) = (*index) + 1;
                 (*counter) = (*counter) - 1;
             }
+            else return;
         }
         explicit SongPredicate(int* artistsArray,int artistID,int* songsArray, int* index,int* counter):artistsArray(artistsArray),artistID(artistID), songsArray(songsArray), index(index),counter(counter){};
         SongPredicate(const SongPredicate& a) = delete;
@@ -300,6 +301,7 @@ public:
             // traverse song tree
             inorder<int,Song,SongPredicate>(song, songPred);
             }
+            else return;
         }
         explicit DiscPredicate(int* artistsArray,int* counter,int* index,int* songsArray):artistsArray(artistsArray),counter(counter),index(index),songsArray(songsArray){};
         DiscPredicate(const DiscPredicate& a) = delete;
