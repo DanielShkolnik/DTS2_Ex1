@@ -84,7 +84,21 @@ public:
     MusicManager(const MusicManager& musicManager) = delete;
     MusicManager& operator=(const MusicManager& musicManager) = delete;
 
-
+    /*
+     * Functionality:
+     * creates new artist.
+     * inserts artist into artist tree.
+     * create new disc of this artist to hold all of his song which have 0 streams. Insert songs into discs song tree.
+     * make all the songs point to the disc which hold them.
+     * If there are no songs whith 0 streams, need to create new element in rank list and insert it in the
+     * beginning of the list.
+     * else the element exists, insert disc into rank's disc tree, and update discs pointer to the adequate rank.
+     * update total number of songs in the system.
+     *
+     * Return values: INVALID_INPUT: in case illegal artistID\number of songs.
+     *                ALLOCATION_ERROR.
+     *                FILURE: in case artist already exists.
+     * */
     StatusType AddArtist(int artistID, int numOfSongs){
         if(artistID<=0 || numOfSongs<=0){
             return INVALID_INPUT;
@@ -154,26 +168,44 @@ public:
     };
 
 
-
+    /*
+     * Functionality:
+     * iterate over all artists discs once and delete them.
+     * delete all vertices from all the discs trees of the different ranks in the rank list.
+     * delete rank list element if it's empty.
+     * delete artist - artist's D'tor deletes all songs.
+     * */
     StatusType RemoveArtist(int artistID){
         if(artistID<=0) return INVALID_INPUT;
         try{
             Artist* artist= this->artistTree.find(artistID)->getData();
             int numOfSongs=artist->getNumOfSongs();
             Node<int,Avl<int,Disc>>* currentNode;
+
+            // Go through all artist's songs
             for(int i=0; i<numOfSongs; i++){
 
                 Disc* disc = artist->getSong(i)->getDisc();
+
+                // if disc is null it's a mark we've visited & deleted this disc already
                 if(disc== nullptr) continue;
 
+                /*
+                 * iterate over all songs of this disc and make their disc pointer to point to nullptr.
+                 * we won't try to delete it second time, and we won't iterate over all of it's songs again.
+                 */
                 Node<int,Song>* songNode = disc->getSongTree()->getRoot();
                 SongPredicateDestroy songPred;
                 postorder<int,Song,SongPredicateDestroy>(songNode,songPred);
 
+                // delete disc from disc tree of adequate node
                 currentNode = disc->getRankPtr();
                 delete disc;
                 currentNode->getData()->deleteVertice(artistID);
 
+                /* check if it was the last disc in this node - if node's empty we can delete it
+                 * and update ptrs to the beginning and end of the list
+                 */
                 if(currentNode->getData()->isEmpty()){
                     if(this->bestHitsListStart->getKey() == currentNode->getKey()){
                         this->bestHitsListStart = currentNode->getNext();
@@ -202,6 +234,9 @@ public:
         }
     }
 
+    /*
+     * Moves the desired song to higher rank in the BsetHitsList list.
+     * */
     StatusType AddToSongCount(int artistID, int songID){
         if(artistID<=0 || songID<0) return INVALID_INPUT;
         try{
@@ -211,23 +246,32 @@ public:
             Disc* discOld = song->getDisc();
             Node<int,Avl<int,Disc>>* rankNodeOld = discOld->getRankPtr();
 
+            // take out song from old disc since it's number of plays doesn't match to the discs anymore
             discOld->removeSong(songID);
 
+            // if there are no songs in the disc - we can delete it
             if(discOld->getSongTree()->isEmpty()){
                 delete discOld;
                 rankNodeOld->getData()->deleteVertice(artistID);
             }
 
+            // update songs num of plays
             artist->addCount(songID);
 
             int popularity = song->getPopularity();
 
+            /* if the next element in list exists & matches the new popularity rank of the song:
+             * check if there's a disc which matches to the artist of this song in the next element of the list
+             * if there is - insert song into adequate disc & update song's disc ptr
+             */
             if(rankNodeOld->getNext()!= nullptr && rankNodeOld->getNext()->getKey()==popularity){
                 try{
                     Disc* disc=rankNodeOld->getNext()->getData()->find(artistID)->getData();
                     disc->addSong(song);
                     song->setDisc(disc);
                 }
+                // if there isn't appropriate disc - create one. insert it into the disc tree of the next rank.
+                // insert song into disc's song tree & update disc's ptr to rank element & song's ptr to disc
                 catch(Avl<int,Disc>::KeyNotFound& e){
                     Disc* discNew = new Disc(artistID);
                     rankNodeOld->getNext()->getData()->insert(artistID,discNew);
@@ -236,6 +280,12 @@ public:
                     song->setDisc(discNew);
                 }
             }
+
+
+            /* In case rank doesn't exist - create new one. create new disc. insert disc into disc's tree of rank
+             * element & update disc's pointer to the rank. insert song into disc's song tree & update song's ptr
+             * to disc.
+             */
             else{
                 Node<int,Avl<int,Disc>>* rankNodeNew = new Node<int,Avl<int,Disc>>(popularity, new Avl<int,Disc>);
                 rankNodeNew->setPrev(rankNodeOld);
@@ -249,6 +299,9 @@ public:
                 song->setDisc(discNew);
             }
 
+            /* check if the old rank, from which we removed the song is empty.
+             * if so - update start and end pointers of the list and delete this rank.
+             * */
             if(rankNodeOld->getData()->isEmpty()){
                 if(this->bestHitsListStart->getKey() == rankNodeOld->getKey()){
                     this->bestHitsListStart = rankNodeOld->getNext();
@@ -276,6 +329,9 @@ public:
         }
     }
 
+    /*
+     * Go to songs and return the number of it's streams
+     */
     StatusType NumberOfStreams(int artistID, int songID, int *streams){
         if(artistID<=0 || songID<0) return INVALID_INPUT;
         try {
@@ -291,7 +347,10 @@ public:
             return FAILURE;
         }
     }
-    //Predicate on Song which inserts each song songID and artistID to the suitable array
+
+    /* Helper function. For each disc, we go over all of it's songs by order and update the adequate indices in
+     * the artists and songs array. See DiscPredicate below for more info.
+     */
     class SongPredicate{
     private:
         int* artistsArray;
@@ -321,7 +380,9 @@ public:
         SongPredicate(const SongPredicate& a) = delete;
     };
 
-    //Predicate on Disc which do inorder traversal on all the songs of the Disc
+    /* Helper function. For each Node in the rank linked list, we go over all of the discs in it's disc tree.
+     * For each disc we call the song predicate function which updates the arrays.
+     */
     class DiscPredicate{
     private:
         int* artistsArray;
@@ -331,6 +392,10 @@ public:
     public:
         // for each node in disc tree do inorder traverse on song tree + add song to song array & artist to artist array
         void operator()(Node<int,Disc>* disc){
+
+            /* always check counter is greater than zero - so we won't iterate over unnecessary nodes of the disc tree
+             * once we finished filling the songs and artists array up to index numOfSongs
+             */
             if(*counter > 0){
             // get songTree root
             Node<int,Song>* song = (disc->getData()->getSongTree()->getRoot());
@@ -349,6 +414,13 @@ public:
     };
 
 
+    /*
+     * Function iterates over the BestHitsList from the end and fills the artists and songs arrays in a sorted manner
+     * First comparison by artist and second comparison by song.
+     * Since each element in rank list hold disc tree & each disc hold song tree -
+     * Need to do inorder traversal on every song tree of each disc,and on the disc tree of each rank list element
+     * Until we filled the required number of indices. then, as soon as our counter is zeroed, we stop the traversal.
+     * */
     StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs){
         if(numOfSongs <= 0) return INVALID_INPUT;
         if(numOfSongs > this->totalSongs) return FAILURE;

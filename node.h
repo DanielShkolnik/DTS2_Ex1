@@ -5,6 +5,11 @@
 #ifndef DTS2_EX1_NODE_H
 #define DTS2_EX1_NODE_H
 
+/*
+ * We used Node.h to implement also the vertices of the AVL tree and also the Elements of the double linked list of
+ * different numbers of streams (BestHitsList).
+ * */
+
 
 static int max(int a, int b){
     if (a>b) return a;
@@ -79,7 +84,7 @@ public:
     }
 
 
-    //List node methods
+    // Methods for implementing doubly linked list (BestHitsList)
     Node(K key, D* data,Node* prev,Node* next):key(key),data(data),parent(nullptr),left(prev),right(next),height(1){}
     Node(K key, D* data):key(key),data(data),parent(nullptr),left(nullptr),right(nullptr),height(1){}
     void setPrev(Node* prev){
@@ -96,13 +101,19 @@ public:
     }
 
     void removeNode(){
+
+        // If I'm the only element
         if(this->getNext() == nullptr && this->getPrev() == nullptr){}
         else if(this->getPrev() == nullptr){
             this->getNext()->setPrev(nullptr);
         }
+
+        // If I have previous
         else if (this->getNext() == nullptr){
             this->getPrev()->setNext(nullptr);
         }
+
+        // If I have next
         else{
             this->getPrev()->setNext(this->getNext());
             this->getNext()->setPrev(this->getPrev());

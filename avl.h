@@ -13,13 +13,23 @@ class Avl{
 private:
     Node<K,D>* root;
     void fixBalanceFactor(Node<K,D>* childVertice);
+
+    // Helper function. After rotations fix root if needed
     void updateRoot(Node<K,D>* node);
+
+    // After rotation need to update pointer's to children\parents
     void fixRelations(Node<K,D>* parent, Node<K,D>* son);
+
+    /*
+     * All rotations are based on the algorithms we've seen in tutorial number 05. The names are taken from there.
+     * */
     void rotateLL(Node<K,D>* B);
     void rotateLR(Node<K,D>* C);
     void rotateRL(Node<K,D>* C);
     void rotateRR(Node<K,D>* B);
     int getBF(Node<K,D>* node);
+
+    // Find nearest Available place to insert new node into tree. if it's the node itself - throws exception KeyExists.
     Node<K,D>* getNextAvailable(K key);
     void removeFromParent(Node<K,D>* node);
     bool isLeftSon(Node<K,D>* node);

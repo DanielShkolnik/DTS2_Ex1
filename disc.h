@@ -45,6 +45,12 @@ public:
         this->songTree->deleteVertice(songID);
     }
 
+    /* pointer to the element of the doubly linked list which is ordered by number of streams.
+     * Each disc holds song tree with songs which belong to the same artist.
+     * all the songs in the disc also have the same number of streams. this number defines the disc's popularity.
+     * Each disc is saved in a node of a disc tree which is pointed by an element of the rank list, with the same rank
+     * as the popularity of the disc.
+     * */
     void setRankPtr(Node<int,Avl<int,Disc>>* rankPtrToSet){
         this->rankPtr = rankPtrToSet;
     }
