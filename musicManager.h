@@ -148,9 +148,18 @@ public:
                 delete disc;
                 currentNode->getData()->deleteVertice(artistID);
 
+
                 if(currentNode->getData()->isEmpty()){
+                    if(this->bestHitsListStart->getKey() == currentNode->getKey()){
+                        this->bestHitsListStart = this->bestHitsListStart ->getNext();
+                    }
+                    if(this->bestHitsListFinish->getKey() == currentNode->getKey()){
+                        this->bestHitsListFinish = this->bestHitsListFinish->getPrev();
+                    }
                     currentNode->removeNode();
                 }
+
+
             }
             //Delete from Artist Tree
             this->artistTree.deleteVertice(artistID);
@@ -216,7 +225,7 @@ public:
                     this->bestHitsListStart = rankNodeOld->getNext();
                 }
                 if(this->bestHitsListFinish->getKey() == rankNodeOld->getKey()){
-                    this->bestHitsListFinish=rankNodeOld->getPrev();
+                    this->bestHitsListFinish = rankNodeOld->getNext();
                 }
                 rankNodeOld->removeNode();
             }

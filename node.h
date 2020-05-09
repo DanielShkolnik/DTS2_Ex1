@@ -100,7 +100,7 @@ public:
         else if(this->getPrev() == nullptr){
             this->getNext()->setPrev(nullptr);
         }
-        else if ((this->getNext() == nullptr)){
+        else if (this->getNext() == nullptr){
             this->getPrev()->setNext(nullptr);
         }
         else{

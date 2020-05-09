@@ -95,7 +95,7 @@ int main(int argc, const char**argv) {
     {
         while ( getline (myfile,line) )
         {
-            if(i==927){
+            if(i==912){
                 int j=0;
             }
             //std::cout << std::endl;
