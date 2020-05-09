@@ -29,10 +29,19 @@ StatusType NumberOfStreams(void *DS, int artistID, int songID, int *streams){
     return ((MusicManager*)DS)->NumberOfStreams(artistID,songID,streams);
 }
 
+
 StatusType GetRecommendedSongs(void *DS, int numOfSongs, int *artists, int *songs){
     if(DS == nullptr || artists == nullptr || songs == nullptr){ return INVALID_INPUT; }
     return ((MusicManager*)DS)->GetRecommendedSongs(numOfSongs,artists,songs);
 }
+
+
+/*
+StatusType GetRecommendedSongs(void *DS, int numOfSongs, int *artists, int *songs, int *popularity){
+    if(DS == nullptr || artists == nullptr || songs == nullptr){ return INVALID_INPUT; }
+    return ((MusicManager*)DS)->GetRecommendedSongs(numOfSongs,artists,songs,popularity);
+}
+ */
 
 void Quit(void** DS){
     delete *(MusicManager **)DS;

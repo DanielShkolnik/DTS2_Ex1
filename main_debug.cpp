@@ -84,20 +84,21 @@ static bool isInit = false;
 /* main                                                                    */
 /***************************************************************************/
 
+
 int main(int argc, const char**argv) {
 
     std::string line;
-    std::ifstream myfile ("in1.txt");
-    freopen ("out1_our.txt","w",stdout);
+    std::ifstream myfile ("testDataStruct/test_check_print.txt");
+    freopen ("check_print_out.txt","w",stdout);
     int i = 1;
     if (myfile.is_open())
     {
         while ( getline (myfile,line) )
         {
-            /*if(i==7620){
+            if(i==927){
                 int j=0;
-            }*/
-            std::cout << std::endl;
+            }
+            //std::cout << std::endl;
             if (parser(line.c_str()) == error)
                 break;
             i++;
@@ -144,6 +145,8 @@ static errorType OnAddToSongCount(void* DS, const char* const command);
 static errorType OnNumberOfStreams(void* DS, const char* const command);
 static errorType OnGetRecommendedSongs(void* DS, const char* const command);
 static errorType OnQuit(void** DS, const char* const command);
+
+
 
 /***************************************************************************/
 /* Parser                                                                  */
@@ -271,15 +274,18 @@ static errorType OnNumberOfStreams(void* DS, const char* const command) {
 static errorType OnGetRecommendedSongs(void* DS, const char* const command) {
     int numOfSongs;
     int *artists, *songs;
+    //int *popularity;
 
     ValidateRead(sscanf(command, "%d", &numOfSongs), 1, "%s failed.\n", commandStr[GETRECOMMENDEDSONGS_CMD]);
     StatusType res;
 
     artists = (int*)malloc(numOfSongs*sizeof(int));
     songs = (int*)malloc(numOfSongs*sizeof(int));
+    //popularity = (int*)malloc(numOfSongs*sizeof(int));
 
     if (artists != NULL && songs != NULL) {
         res = GetRecommendedSongs(DS, numOfSongs, artists, songs);
+        //res = GetRecommendedSongs(DS, numOfSongs, artists, songs, popularity);
     }
     else {
         res = ALLOCATION_ERROR;
@@ -297,12 +303,14 @@ static errorType OnGetRecommendedSongs(void* DS, const char* const command) {
     for (int i = 0; i < numOfSongs; i++)
     {
         printf("%d\t|\t%d\n", artists[i], songs[i]);
+        //printf("%d\t|\t%d\t|\t%d\n", artists[i], songs[i], popularity[i]);
     }
 
     printf("--End of recommended songs--\n");
 
     if (artists != NULL) free(artists);
     if (songs != NULL) free(songs);
+    //if (popularity != NULL) free(popularity);
 
     return error_free;
 }

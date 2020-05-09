@@ -186,7 +186,9 @@ public:
 
             if(rankNodeOld->getNext()!= nullptr && rankNodeOld->getNext()->getKey()==popularity){
                 try{
-                    rankNodeOld->getNext()->getData()->find(artistID)->getData()->addSong(song);
+                    Disc* disc=rankNodeOld->getNext()->getData()->find(artistID)->getData();
+                    disc->addSong(song);
+                    song->setDisc(disc);
                 }
                 catch(Avl<int,Disc>::KeyNotFound& e){
                     Disc* discNew = new Disc(artistID);
@@ -237,13 +239,15 @@ public:
     StatusType NumberOfStreams(int artistID, int songID, int *streams){
         if(artistID<=0 || songID<0) return INVALID_INPUT;
         try {
-            *streams = this->artistTree.find(artistID)->getData()->getSong(songID)->getPopularity();
+            Artist* artist= this->artistTree.find(artistID)->getData();
+            if(artist->getNumOfSongs()<=songID) return INVALID_INPUT;
+            *streams = artist->getSong(songID)->getPopularity();
             return SUCCESS;
         }
         catch (std::bad_alloc& e) {
             return ALLOCATION_ERROR;
         }
-        catch(const Avl<int,Artist>::KeyExists& e) {
+        catch(const Avl<int,Artist>::KeyNotFound& e) {
             return FAILURE;
         }
     }
@@ -301,6 +305,7 @@ public:
         DiscPredicate(const DiscPredicate& a) = delete;
     };
 
+
     StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs){
         if(numOfSongs <= 0) return INVALID_INPUT;
         if(numOfSongs > this->totalSongs) return FAILURE;
@@ -335,6 +340,103 @@ public:
             return FAILURE;
         }
     }
+
+
+/*
+    class SongPredicate{
+    private:
+        int* artistsArray;
+        int artistID;
+        int* songsArray;
+        int* index;
+        int* counter;
+        int* popularity;
+    public:
+        void operator()(Node<int,Song>* songNode){
+
+            // finish when counter equal to zero
+            if(*counter > 0) {
+
+                // add to artists array
+                artistsArray[*index] = artistID;
+
+                // add to songs list
+                songsArray[*index] = songNode->getData()->getSongID();
+
+                popularity[*index] = songNode->getData()->getPopularity();
+
+                // update index
+                (*index) = (*index) + 1;
+                (*counter) = (*counter) - 1;
+            }
+        }
+        explicit SongPredicate(int* artistsArray,int artistID,int* songsArray, int* index,int* counter, int* popularity):artistsArray(artistsArray),artistID(artistID), songsArray(songsArray), index(index),counter(counter),popularity(popularity){};
+        SongPredicate(const SongPredicate& a) = delete;
+    };
+
+    class DiscPredicate{
+    private:
+        int* artistsArray;
+        int* counter;
+        int* index;
+        int* songsArray;
+        int* popularity;
+    public:
+        // for each node in disc tree do inorder traverse on song tree + add song to song array & artist to artist array
+        void operator()(Node<int,Disc>* disc){
+            if(*counter > 0){
+                // get songTree root
+                Node<int,Song>* song = (disc->getData()->getSongTree()->getRoot());
+
+
+                // create inst of predicate for song
+                SongPredicate songPred(artistsArray,song->getData()->getArtistID(),songsArray,index,counter,popularity);
+
+                // traverse song tree
+                inorder<int,Song,SongPredicate>(song, songPred);
+            }
+        }
+        explicit DiscPredicate(int* artistsArray,int* counter,int* index,int* songsArray, int* popularity):artistsArray(artistsArray),counter(counter),index(index),songsArray(songsArray),popularity(popularity){};
+        DiscPredicate(const DiscPredicate& a) = delete;
+    };
+
+
+    StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs, int *popularity){
+        if(numOfSongs <= 0) return INVALID_INPUT;
+        if(numOfSongs > this->totalSongs) return FAILURE;
+        try {
+            int i = 0, j=numOfSongs;
+            int *counter = &j;
+            int *index = &i;
+            // set iterator to end of list & init counter
+            Node<int, Avl<int, Disc>> *iter = this->bestHitsListFinish;
+
+            // loop over nodes of list
+            for (; (iter != nullptr && *counter > 0); iter = iter->getPrev()) {
+
+                // get disc root
+                Node<int, Disc> *discIter = iter->getData()->getRoot();
+
+                // create inst of predicate for disc
+                DiscPredicate discPred(artists, counter, index, songs, popularity);
+
+                // traverse tree for current rank
+                inorder<int, Disc, DiscPredicate>(discIter, discPred);
+            }
+            return SUCCESS;
+        }
+        catch (Artist::INVALID_INPUT& e) {
+            return INVALID_INPUT;
+        }
+        catch(std::bad_alloc&) {
+            return ALLOCATION_ERROR;
+        }
+        catch(Avl<int,Artist>::KeyExists& e) {
+            return FAILURE;
+        }
+    }
+*/
+
 
 
 };
