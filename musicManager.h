@@ -151,11 +151,12 @@ public:
 
                 if(currentNode->getData()->isEmpty()){
                     if(this->bestHitsListStart->getKey() == currentNode->getKey()){
-                        this->bestHitsListStart = this->bestHitsListStart ->getNext();
+                        this->bestHitsListStart = currentNode->getNext();
                     }
                     if(this->bestHitsListFinish->getKey() == currentNode->getKey()){
-                        this->bestHitsListFinish = this->bestHitsListFinish->getPrev();
+                        this->bestHitsListFinish = currentNode->getPrev();
                     }
+                    delete currentNode->getData();
                     currentNode->removeNode();
                 }
 
@@ -187,7 +188,10 @@ public:
 
             discOld->removeSong(songID);
 
-            if(discOld->getSongTree()->isEmpty()) rankNodeOld->getData()->deleteVertice(artistID);
+            if(discOld->getSongTree()->isEmpty()){
+                delete discOld;
+                rankNodeOld->getData()->deleteVertice(artistID);
+            }
 
             artist->addCount(songID);
 
@@ -227,6 +231,8 @@ public:
                 if(this->bestHitsListFinish->getKey() == rankNodeOld->getKey()){
                     this->bestHitsListFinish = rankNodeOld->getNext();
                 }
+
+                delete rankNodeOld->getData();
                 rankNodeOld->removeNode();
             }
 
