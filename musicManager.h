@@ -62,7 +62,7 @@ public:
             postorder<int,Disc,DiscPredicateDelete>(discNode,discDelete);
 
             delete prev->getData();
-            delete prev;
+            prev->removeNode();
             prev = current;
         }
 
@@ -147,7 +147,6 @@ public:
                 currentNode = disc->getRankPtr();
                 delete disc;
                 currentNode->getData()->deleteVertice(artistID);
-
 
                 if(currentNode->getData()->isEmpty()){
                     if(this->bestHitsListStart->getKey() == currentNode->getKey()){

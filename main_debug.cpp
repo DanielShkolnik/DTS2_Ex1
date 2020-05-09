@@ -88,14 +88,14 @@ static bool isInit = false;
 int main(int argc, const char**argv) {
 
     std::string line;
-    std::ifstream myfile ("testDataStruct/test_check_print.txt");
-    freopen ("check_print_out.txt","w",stdout);
+    std::ifstream myfile ("inget_rec2.txt ");
+    freopen ("inget_rec2_out.txt","w",stdout);
     int i = 1;
     if (myfile.is_open())
     {
         while ( getline (myfile,line) )
         {
-            if(i==912){
+            if(i==57){
                 int j=0;
             }
             //std::cout << std::endl;
