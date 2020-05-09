@@ -103,7 +103,7 @@ public:
 
             // update artists song
             for(int i=0;i<artist->getNumOfSongs();i++){
-                disc->addSong((artist->getSong(i)));
+                disc->addSong((artist->getSong(i))); //Need to fix
                 artist->getSong(i)->setDisc(disc);
             }
 
@@ -142,7 +142,7 @@ public:
         }
     }
 
-
+    //Predicate on Song which updates each song DiscPtr to nullptr
     class SongPredicateDestroy{
     public:
         void operator()(Node<int,Song>* songNode){
@@ -291,7 +291,7 @@ public:
             return FAILURE;
         }
     }
-
+    //Predicate on Song which inserts each song songID and artistID to the suitable array
     class SongPredicate{
     private:
         int* artistsArray;
@@ -321,6 +321,7 @@ public:
         SongPredicate(const SongPredicate& a) = delete;
     };
 
+    //Predicate on Disc which do inorder traversal on all the songs of the Disc
     class DiscPredicate{
     private:
         int* artistsArray;
