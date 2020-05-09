@@ -100,10 +100,21 @@ public:
             }
 
             // insert disc into disc tree at rank 0 in bestHitsList
-            this->bestHitsListStart->getData()->insert(artistID,disc);
+            if(this->bestHitsListStart->getKey()==0){
+                this->bestHitsListStart->getData()->insert(artistID,disc);
+                disc->setRankPtr(this->bestHitsListStart);
+            }
+            else{
+                Node<int,Avl<int,Disc>>* rankNodeNew = new Node<int,Avl<int,Disc>>(0, new Avl<int,Disc>);
+                rankNodeNew->setPrev(nullptr);
+                rankNodeNew->setNext(this->bestHitsListStart);
+                this->bestHitsListStart->setPrev(rankNodeNew);
+                this->bestHitsListStart=rankNodeNew;
+                if(this->bestHitsListFinish == nullptr) this->bestHitsListFinish=this->bestHitsListStart;
+                rankNodeNew->getData()->insert(artistID,disc);
+                disc->setRankPtr(rankNodeNew);
+            }
 
-            // update ptr to rank
-            disc->setRankPtr(this->bestHitsListStart);
             this->totalSongs+=numOfSongs;
             return SUCCESS;
         }
