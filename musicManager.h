@@ -127,7 +127,7 @@ public:
         }
     }
 
-
+    //Predicate on Song which updates each song DiscPtr to nullptr
     class SongPredicateDestroy{
     public:
         void operator()(Node<int,Song>* songNode){
@@ -276,7 +276,7 @@ public:
             return FAILURE;
         }
     }
-
+    //Predicate on Song which inserts each song songID and artistID to the suitable array
     class SongPredicate{
     private:
         int* artistsArray;
@@ -306,6 +306,7 @@ public:
         SongPredicate(const SongPredicate& a) = delete;
     };
 
+    //Predicate on Disc which do inorder traversal on all the songs of the Disc
     class DiscPredicate{
     private:
         int* artistsArray;
@@ -367,103 +368,6 @@ public:
             return FAILURE;
         }
     }
-
-
-/*
-    class SongPredicate{
-    private:
-        int* artistsArray;
-        int artistID;
-        int* songsArray;
-        int* index;
-        int* counter;
-        int* popularity;
-    public:
-        void operator()(Node<int,Song>* songNode){
-
-            // finish when counter equal to zero
-            if(*counter > 0) {
-
-                // add to artists array
-                artistsArray[*index] = artistID;
-
-                // add to songs list
-                songsArray[*index] = songNode->getData()->getSongID();
-
-                popularity[*index] = songNode->getData()->getPopularity();
-
-                // update index
-                (*index) = (*index) + 1;
-                (*counter) = (*counter) - 1;
-            }
-        }
-        explicit SongPredicate(int* artistsArray,int artistID,int* songsArray, int* index,int* counter, int* popularity):artistsArray(artistsArray),artistID(artistID), songsArray(songsArray), index(index),counter(counter),popularity(popularity){};
-        SongPredicate(const SongPredicate& a) = delete;
-    };
-
-    class DiscPredicate{
-    private:
-        int* artistsArray;
-        int* counter;
-        int* index;
-        int* songsArray;
-        int* popularity;
-    public:
-        // for each node in disc tree do inorder traverse on song tree + add song to song array & artist to artist array
-        void operator()(Node<int,Disc>* disc){
-            if(*counter > 0){
-                // get songTree root
-                Node<int,Song>* song = (disc->getData()->getSongTree()->getRoot());
-
-
-                // create inst of predicate for song
-                SongPredicate songPred(artistsArray,song->getData()->getArtistID(),songsArray,index,counter,popularity);
-
-                // traverse song tree
-                inorder<int,Song,SongPredicate>(song, songPred);
-            }
-        }
-        explicit DiscPredicate(int* artistsArray,int* counter,int* index,int* songsArray, int* popularity):artistsArray(artistsArray),counter(counter),index(index),songsArray(songsArray),popularity(popularity){};
-        DiscPredicate(const DiscPredicate& a) = delete;
-    };
-
-
-    StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs, int *popularity){
-        if(numOfSongs <= 0) return INVALID_INPUT;
-        if(numOfSongs > this->totalSongs) return FAILURE;
-        try {
-            int i = 0, j=numOfSongs;
-            int *counter = &j;
-            int *index = &i;
-            // set iterator to end of list & init counter
-            Node<int, Avl<int, Disc>> *iter = this->bestHitsListFinish;
-
-            // loop over nodes of list
-            for (; (iter != nullptr && *counter > 0); iter = iter->getPrev()) {
-
-                // get disc root
-                Node<int, Disc> *discIter = iter->getData()->getRoot();
-
-                // create inst of predicate for disc
-                DiscPredicate discPred(artists, counter, index, songs, popularity);
-
-                // traverse tree for current rank
-                inorder<int, Disc, DiscPredicate>(discIter, discPred);
-            }
-            return SUCCESS;
-        }
-        catch (Artist::INVALID_INPUT& e) {
-            return INVALID_INPUT;
-        }
-        catch(std::bad_alloc&) {
-            return ALLOCATION_ERROR;
-        }
-        catch(Avl<int,Artist>::KeyExists& e) {
-            return FAILURE;
-        }
-    }
-*/
-
 
 
 };
