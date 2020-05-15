@@ -124,7 +124,7 @@ public:
             // insert disc into disc tree at rank 0 in bestHitsList
 
             // if there is rank 0 at BsetHitsList
-            if(this->bestHitsListStart->getKey()==0){
+            if(this->bestHitsListStart!= nullptr && this->bestHitsListStart->getKey()==0){
                 this->bestHitsListStart->getData()->insert(artistID,disc);
                 disc->setRankPtr(this->bestHitsListStart);
             }
@@ -134,7 +134,7 @@ public:
                 Node<int,Avl<int,Disc>>* rankNodeNew = new Node<int,Avl<int,Disc>>(0, new Avl<int,Disc>);
                 rankNodeNew->setPrev(nullptr);
                 rankNodeNew->setNext(this->bestHitsListStart);
-                this->bestHitsListStart->setPrev(rankNodeNew);
+                if(this->bestHitsListStart!= nullptr) this->bestHitsListStart->setPrev(rankNodeNew);
                 this->bestHitsListStart=rankNodeNew;
                 if(this->bestHitsListFinish == nullptr) this->bestHitsListFinish=this->bestHitsListStart;
 
@@ -422,7 +422,7 @@ public:
      * Until we filled the required number of indices. then, as soon as our counter is zeroed, we stop the traversal.
      * */
     StatusType GetRecommendedSongs(int numOfSongs, int *artists, int *songs){
-        if(numOfSongs <= 0) return INVALID_INPUT;
+        //if(numOfSongs <= 0) return INVALID_INPUT;
         if(numOfSongs > this->totalSongs) return FAILURE;
         try {
             int i = 0, j=numOfSongs;

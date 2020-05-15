@@ -88,8 +88,8 @@ static bool isInit = false;
 int main(int argc, const char**argv) {
 
     std::string line;
-    std::ifstream myfile ("inget_rec2_Copy.txt ");
-    freopen ("inget_rec2_out.txt","w",stdout);
+    std::ifstream myfile ("in14.txt");
+    freopen ("out14_our.txt","w",stdout);
     int i = 1;
     if (myfile.is_open())
     {

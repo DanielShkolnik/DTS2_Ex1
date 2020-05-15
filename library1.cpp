@@ -31,7 +31,8 @@ StatusType NumberOfStreams(void *DS, int artistID, int songID, int *streams){
 
 
 StatusType GetRecommendedSongs(void *DS, int numOfSongs, int *artists, int *songs){
-    if(DS == nullptr || artists == nullptr || songs == nullptr){ return INVALID_INPUT; }
+    if(DS == nullptr || artists == nullptr || songs == nullptr) return INVALID_INPUT;
+    if(numOfSongs<=0) return ALLOCATION_ERROR;
     return ((MusicManager*)DS)->GetRecommendedSongs(numOfSongs,artists,songs);
 }
 
