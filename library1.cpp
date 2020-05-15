@@ -25,7 +25,7 @@ StatusType AddToSongCount(void *DS, int artistID, int songID){
 }
 
 StatusType NumberOfStreams(void *DS, int artistID, int songID, int *streams){
-    if(DS == nullptr) return INVALID_INPUT;
+    if(DS == nullptr || streams == nullptr) return INVALID_INPUT;
     return ((MusicManager*)DS)->NumberOfStreams(artistID,songID,streams);
 }
 
